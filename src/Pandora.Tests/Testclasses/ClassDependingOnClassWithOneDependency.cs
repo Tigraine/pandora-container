@@ -13,15 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-using System;
-
-namespace Pandora
+namespace Pandora.Tests.Testclasses
 {
-    public class ServiceNotFoundException : ApplicationException
+    public class ClassDependingOnClassWithOneDependency : IService3
     {
-        public ServiceNotFoundException(string name)
-            : base(String.Format("No service for key {0} was found", name))
+        private readonly IService2 service2;
+
+        public ClassDependingOnClassWithOneDependency(IService2 service2)
         {
+            this.service2 = service2;
         }
     }
 }

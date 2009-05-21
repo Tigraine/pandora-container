@@ -17,11 +17,12 @@ using System;
 
 namespace Pandora
 {
-    public class ServiceNotFoundException : ApplicationException
+    public class DependencyMissingException : ApplicationException
     {
-        public ServiceNotFoundException(string name)
-            : base(String.Format("No service for key {0} was found", name))
+        public DependencyMissingException(string name)
+            : base (String.Format("Service could not be created because one of it's dependencies are missing:{0}{1}", Environment.NewLine, name))
         {
+            
         }
     }
 }

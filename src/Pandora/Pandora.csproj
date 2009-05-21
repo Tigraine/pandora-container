@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ComponentStore.cs" />
+    <Compile Include="DependencyMissingException.cs" />
     <Compile Include="IComponentStore.cs" />
     <Compile Include="PandoraContainer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

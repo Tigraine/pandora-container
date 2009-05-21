@@ -61,7 +61,12 @@
     <Compile Include="Mocks\ComponentStoreStub.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResolverFixture.cs" />
+    <Compile Include="Testclasses\ClassDependingOnClassWithOneDependency.cs" />
     <Compile Include="Testclasses\ClassWithNoDependencies.cs" />
+    <Compile Include="Testclasses\ClassWithOneDependency.cs" />
+    <Compile Include="Testclasses\IService.cs" />
+    <Compile Include="Testclasses\IService2.cs" />
+    <Compile Include="Testclasses\IService3.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Pandora\Pandora.csproj">
