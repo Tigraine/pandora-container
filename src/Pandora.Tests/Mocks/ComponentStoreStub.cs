@@ -17,7 +17,7 @@ namespace Pandora.Tests.Mocks
 
         private IList<Type> getResult = new List<Type>();
 
-        public void ADdResultForGet(Type result)
+        public void AddResultForGet(Type result)
         {
             getResult.Add(result);
         }

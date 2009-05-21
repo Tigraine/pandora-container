@@ -5,16 +5,6 @@ using System.Reflection;
 
 namespace Pandora
 {
-    public interface IComponentStore
-    {
-        void Add<T, TType>()
-            where T : class
-            where TType : T;
-
-        Type Get<T>()
-            where T : class;
-    }
-
     public class PandoraContainer
     {
         private readonly IComponentStore componentStore;
@@ -25,7 +15,7 @@ namespace Pandora
         }
 
         public void AddComponent<T, TImplementor>()
-            where T : class 
+            where T : class
             where TImplementor : T
         {
             componentStore.Add<T, TImplementor>();
@@ -34,29 +24,64 @@ namespace Pandora
         public T Resolve<T>()
             where T : class
         {
-            var componentType = componentStore.Get<T>();
+            Type componentType;
+            try
+            {
+                componentType = componentStore.Get<T>();
+            }
+            catch (KeyNotFoundException)
+            {
+                throw new ServiceNotFoundException(typeof (T).FullName);
+            }
+
             var constructors = componentType.GetConstructors();
-            var enumerable = constructors.OrderBy(p => p.GetParameters().Count());
+            var enumerable = constructors.OrderByDescending(p => p.GetParameters().Count());
+
+            IList<ServiceNotFoundException> exceptions;
+
             foreach (var info in enumerable)
             {
+                exceptions = new List<ServiceNotFoundException>();
+
                 var parameters = info.GetParameters();
-                if (parameters.Length == 0)
-                    return (T)Activator.CreateInstance(componentType);
-                else
+                if (parameters.Length == 0) //Fast way out.
+                    return (T) Activator.CreateInstance(componentType);
+
+                IList<object> resolvedParameters = new List<object>();
+                foreach (var parameter in parameters)
                 {
-                    IList<object> resolvedParameters = new List<object>();
-                    foreach (var parameter in parameters)
+                    Type type = parameter.ParameterType;
+                    MethodInfo method = typeof (PandoraContainer).GetMethod("Resolve");
+                    MethodInfo generic = method.MakeGenericMethod(type);
+                    try
                     {
-                        Type type = parameter.ParameterType;
-                        MethodInfo method = typeof (PandoraContainer).GetMethod("Resolve");
-                        MethodInfo generic = method.MakeGenericMethod(type);
                         resolvedParameters.Add(generic.Invoke(this, null));
                     }
-                    return (T)Activator.CreateInstance(componentType, resolvedParameters.ToArray());
+                    catch (TargetInvocationException exception)
+                    {
+                        if (exception.InnerException is ServiceNotFoundException)
+                        {
+                            throw new DependencyMissingException(exception.InnerException.Message);
+                        }
+                        throw exception.InnerException;
+                    }
                 }
+                if (resolvedParameters.Count == parameters.Length)
+                    return (T) Activator.CreateInstance(componentType, resolvedParameters.ToArray());
             }
+
+
             //Need to implement errormessage
             throw new NotImplementedException();
+        }
+    }
+
+    public class DependencyMissingException : ApplicationException
+    {
+        public DependencyMissingException(string name)
+            : base (String.Format("Service could not be created because one of it's dependencies are missing:{0}{1}", Environment.NewLine, name))
+        {
+            
         }
     }
 }
