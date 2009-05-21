@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 
 namespace Pandora
 {
@@ -37,8 +39,21 @@ namespace Pandora
             var enumerable = constructors.OrderBy(p => p.GetParameters().Count());
             foreach (var info in enumerable)
             {
-                if (info.GetParameters().Length == 0)
+                var parameters = info.GetParameters();
+                if (parameters.Length == 0)
                     return (T)Activator.CreateInstance(componentType);
+                else
+                {
+                    IList<object> resolvedParameters = new List<object>();
+                    foreach (var parameter in parameters)
+                    {
+                        Type type = parameter.ParameterType;
+                        MethodInfo method = typeof (PandoraContainer).GetMethod("Resolve");
+                        MethodInfo generic = method.MakeGenericMethod(type);
+                        resolvedParameters.Add(generic.Invoke(this, null));
+                    }
+                    return (T)Activator.CreateInstance(componentType, resolvedParameters.ToArray());
+                }
             }
             //Need to implement errormessage
             throw new NotImplementedException();

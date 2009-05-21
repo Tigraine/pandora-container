@@ -15,11 +15,11 @@ namespace Pandora.Tests.Mocks
             return 0;
         }
 
-        private Type getResult = null;
+        private IList<Type> getResult = new List<Type>();
 
-        public void SetResultForGet(Type result)
+        public void ADdResultForGet(Type result)
         {
-            getResult = result;
+            getResult.Add(result);
         }
 
         public void Add<T, TType>() where T : class where TType : T
@@ -40,7 +40,10 @@ namespace Pandora.Tests.Mocks
             var methodName = MethodBase.GetCurrentMethod().Name;
             CountMethodCall(methodName);
 
-            return getResult;
+            var result = getResult[0];
+            getResult.RemoveAt(0);
+
+            return result;
         }
     }
 }

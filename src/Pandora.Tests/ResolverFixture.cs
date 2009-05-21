@@ -1,3 +1,4 @@
+using System;
 using Pandora.Tests.Mocks;
 using Pandora.Tests.Testclasses;
 using Rhino.Mocks;
@@ -24,12 +25,31 @@ namespace Pandora.Tests
         public void CanResolveClassWithoutDependencies()
         {
             ComponentStoreStub componentStore = new ComponentStoreStub();
-            componentStore.SetResultForGet(typeof(ClassWithNoDependencies));
+            componentStore.ADdResultForGet(typeof(ClassWithNoDependencies));
 
             PandoraContainer locator = new PandoraContainer(componentStore);
             var result = locator.Resolve<IService>();
 
             Assert.IsType<ClassWithNoDependencies>(result);
+        }
+
+        [Fact]
+        public void CanResolveClassWithOneDependency()
+        {
+            ComponentStoreStub componentStore = new ComponentStoreStub();
+            componentStore.ADdResultForGet(typeof(ClassWithOneDependency));
+            componentStore.ADdResultForGet(typeof(ClassWithNoDependencies));
+
+            PandoraContainer locator = new PandoraContainer(componentStore);
+            var result = locator.Resolve<IService2>();
+
+            Assert.IsType<ClassWithOneDependency>(result);
+        }
+
+        [Fact]
+        public void CanResolveClassWithMultipleDependencies()
+        {
+            throw new NotImplementedException();
         }
     }
 }
