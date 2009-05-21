@@ -25,5 +25,7 @@ namespace Pandora
 
         Type Get<T>()
             where T : class;
+
+        Type Get(Type type);
     }
 }

@@ -16,7 +16,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 
 namespace Pandora
 {
@@ -36,17 +35,16 @@ namespace Pandora
             componentStore.Add<T, TImplementor>();
         }
 
-        public T Resolve<T>()
-            where T : class
+        private object Resolve(Type targetType)
         {
             Type componentType;
             try
             {
-                componentType = componentStore.Get<T>();
+                componentType = componentStore.Get(targetType);
             }
             catch (KeyNotFoundException)
             {
-                throw new ServiceNotFoundException(typeof (T).FullName);
+                throw new ServiceNotFoundException(targetType.FullName);
             }
 
             var constructors = componentType.GetConstructors();
@@ -56,34 +54,35 @@ namespace Pandora
             {
                 var parameters = info.GetParameters();
                 if (parameters.Length == 0) //Fast way out.
-                    return (T) Activator.CreateInstance(componentType);
+                    return Activator.CreateInstance(componentType);
 
                 IList<object> resolvedParameters = new List<object>();
                 foreach (var parameter in parameters)
                 {
                     Type type = parameter.ParameterType;
-                    MethodInfo method = typeof (PandoraContainer).GetMethod("Resolve");
-                    MethodInfo generic = method.MakeGenericMethod(type);
+                    
                     try
                     {
-                        resolvedParameters.Add(generic.Invoke(this, null));
+                        resolvedParameters.Add(Resolve(type));
                     }
-                    catch (TargetInvocationException exception)
+                    catch (ServiceNotFoundException exception)
                     {
-                        if (exception.InnerException is ServiceNotFoundException)
-                        {
-                            throw new DependencyMissingException(exception.InnerException.Message);
-                        }
-                        throw exception.InnerException;
+                        throw new DependencyMissingException(exception.Message);
                     }
                 }
                 if (resolvedParameters.Count == parameters.Length)
-                    return (T) Activator.CreateInstance(componentType, resolvedParameters.ToArray());
+                    return Activator.CreateInstance(componentType, resolvedParameters.ToArray());
             }
 
 
             //Need to implement errormessage
             throw new NotImplementedException();
+        }
+
+        public T Resolve<T>()
+            where T : class
+        {
+            return (T)Resolve(typeof (T));
         }
     }
 }

@@ -60,5 +60,10 @@ namespace Pandora.Tests.Mocks
 
             return result;
         }
+
+        public Type Get(Type type)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

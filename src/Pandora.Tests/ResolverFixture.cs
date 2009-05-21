@@ -37,8 +37,8 @@ namespace Pandora.Tests
         [Fact]
         public void CanResolveClassWithoutDependencies()
         {
-            ComponentStoreStub componentStore = new ComponentStoreStub();
-            componentStore.AddResultForGet(typeof(ClassWithNoDependencies));
+            ComponentStore componentStore = new ComponentStore();
+            componentStore.Add<IService, ClassWithNoDependencies>();
 
             PandoraContainer locator = new PandoraContainer(componentStore);
             var result = locator.Resolve<IService>();

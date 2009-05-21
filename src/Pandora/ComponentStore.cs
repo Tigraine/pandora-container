@@ -34,7 +34,12 @@ namespace Pandora
 
         public Type Get<T>() where T : class
         {
-            return store[typeof (T)];
+            return Get(typeof (T));
+        }
+
+        public Type Get(Type type)
+        {
+            return store[type];
         }
     }
 }
