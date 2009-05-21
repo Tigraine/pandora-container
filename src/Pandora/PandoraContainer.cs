@@ -47,11 +47,13 @@ namespace Pandora
                 throw new ServiceNotFoundException(targetType.FullName);
             }
 
-            var constructors = componentType.GetConstructors();
-            var enumerable = constructors.OrderByDescending(p => p.GetParameters().Count());
-
-            foreach (var info in enumerable)
+            var constructors = componentType.GetConstructors()
+                                    .OrderByDescending(p => p.GetParameters().Count());
+            
+            IList<DependencyMissingException> missingDependencies = new List<DependencyMissingException>();
+            foreach (var info in constructors)
             {
+                missingDependencies = new List<DependencyMissingException>();
                 var parameters = info.GetParameters();
                 if (parameters.Length == 0) //Fast way out.
                     return Activator.CreateInstance(componentType);
@@ -67,12 +69,14 @@ namespace Pandora
                     }
                     catch (ServiceNotFoundException exception)
                     {
-                        throw new DependencyMissingException(exception.Message);
+                        missingDependencies.Add(new DependencyMissingException(exception.Message));
                     }
                 }
                 if (resolvedParameters.Count == parameters.Length)
                     return Activator.CreateInstance(componentType, resolvedParameters.ToArray());
             }
+            if (missingDependencies.Count > 0)
+                throw missingDependencies.First(); //TODO: Expose all missing dependencies
 
 
             //Need to implement errormessage

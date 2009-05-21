@@ -37,10 +37,10 @@ namespace Pandora.Tests
         [Fact]
         public void CanResolveClassWithoutDependencies()
         {
-            ComponentStore componentStore = new ComponentStore();
+            var componentStore = new ComponentStore();
             componentStore.Add<IService, ClassWithNoDependencies>();
 
-            PandoraContainer locator = new PandoraContainer(componentStore);
+            var locator = new PandoraContainer(componentStore);
             var result = locator.Resolve<IService>();
 
             Assert.IsType<ClassWithNoDependencies>(result);
@@ -115,6 +115,17 @@ namespace Pandora.Tests
             var container = new PandoraContainer(store);
 
             Assert.Throws<DependencyMissingException>(() => container.Resolve<IService3>());
+        }
+
+        [Fact]
+        public void CanResolveWhenGivenTwoConstructorsWhereOneCantBeSatisfied()
+        {
+            var store = new ComponentStore();
+            store.Add<IService4, ClassWithMultipleConstructors>();
+
+            var container = new PandoraContainer(store);
+
+            Assert.DoesNotThrow(() => container.Resolve<IService4>());
         }
     }
 }
