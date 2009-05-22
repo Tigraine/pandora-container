@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CollidingDictionary.cs" />
     <Compile Include="ComponentStore.cs" />
     <Compile Include="DependencyMissingException.cs" />
     <Compile Include="IComponentStore.cs" />

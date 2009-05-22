@@ -40,8 +40,8 @@ namespace Pandora.Tests
             var componentStore = new ComponentStore();
             componentStore.Add<IService, ClassWithNoDependencies>();
 
-            var locator = new PandoraContainer(componentStore);
-            var result = locator.Resolve<IService>();
+            var container = new PandoraContainer(componentStore);
+            var result = container.Resolve<IService>();
 
             Assert.IsType<ClassWithNoDependencies>(result);
         }

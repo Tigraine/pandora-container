@@ -57,6 +57,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CollidingDictionaryFixture.cs" />
     <Compile Include="ComponentStoreFixture.cs" />
     <Compile Include="Mocks\ComponentStoreStub.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

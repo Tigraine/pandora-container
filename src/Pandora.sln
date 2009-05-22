@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pandora", "Pandora.csproj", "{1F4FF8BD-2E0E-4EF8-92BD-54861F7C1EC0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pandora", "Pandora\Pandora.csproj", "{1F4FF8BD-2E0E-4EF8-92BD-54861F7C1EC0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pandora.Tests", "..\Pandora.Tests\Pandora.Tests.csproj", "{F9719EB0-9BEA-4B4E-87CE-FC09F897F498}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pandora.Tests", "Pandora.Tests\Pandora.Tests.csproj", "{F9719EB0-9BEA-4B4E-87CE-FC09F897F498}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
