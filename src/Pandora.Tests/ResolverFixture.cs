@@ -127,5 +127,32 @@ namespace Pandora.Tests
 
             Assert.DoesNotThrow(() => container.Resolve<IService4>());
         }
+
+        [Fact]
+        public void CanResolveDependencyChainOfSameService()
+        {
+            var store = new ComponentStore();
+            store.Add<IService, ClassWithDependencyOnItsOwnService>();
+            store.Add<IService, ClassWithNoDependencies>();
+
+            var container = new PandoraContainer(store);
+
+            var service = container.Resolve<IService>();
+
+            Assert.IsType(typeof (ClassWithDependencyOnItsOwnService), service);
+            var ownService = (ClassWithDependencyOnItsOwnService)service;
+            Assert.IsType(typeof (ClassWithNoDependencies), ownService.SubService);
+        }
+
+        [Fact]
+        public void ThrowsDependencyMissingExceptionIfDependencyChainCannotBeSatisfied()
+        {
+            var store = new ComponentStore();
+            store.Add<IService, ClassWithDependencyOnItsOwnService>();
+
+            var container = new PandoraContainer(store);
+
+            Assert.Throws<DependencyMissingException>(() => container.Resolve<IService>());
+        }
     }
 }

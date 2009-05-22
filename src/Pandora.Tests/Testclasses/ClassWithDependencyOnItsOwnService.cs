@@ -13,20 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-using System;
-using System.Collections.Generic;
-
-namespace Pandora
+namespace Pandora.Tests.Testclasses
 {
-    public interface IComponentStore
+    public class ClassWithDependencyOnItsOwnService : IService
     {
-        void Add<T, TType>()
-            where T : class
-            where TType : T;
+        private readonly IService service;
 
-        IList<Type> Get<T>()
-            where T : class;
+        public ClassWithDependencyOnItsOwnService(IService service)
+        {
+            this.service = service;
+        }
 
-        IList<Type> Get(Type type);
+        public IService SubService
+        {
+            get { return service; }
+        }
     }
 }

@@ -21,23 +21,23 @@ namespace Pandora
 {
     public class ComponentStore : IComponentStore
     {
-        private IDictionary<Type, Type> store = new Dictionary<Type, Type>();
+        private CollidingDictionary<Type, Type> store = new CollidingDictionary<Type, Type>();
         public void Add<T, TType>() where T : class where TType : T
         {
             var type = typeof(T);
-            if (store.ContainsKey(type))
+/*            if (store.ContainsKey(type))
             {
                 throw new InvalidOperationException("Type " + type.FullName + " was already registered");
-            }
+            }*/
             store.Add(type, typeof(TType));
         }
 
-        public Type Get<T>() where T : class
+        public IList<Type> Get<T>() where T : class
         {
             return Get(typeof (T));
         }
 
-        public Type Get(Type type)
+        public IList<Type> Get(Type type)
         {
             return store[type];
         }

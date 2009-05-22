@@ -30,9 +30,9 @@ namespace Pandora.Tests.Mocks
             return 0;
         }
 
-        private IList<Type> getResult = new List<Type>();
+        private List<IList<Type>> getResult = new List<IList<Type>>();
 
-        public void AddResultForGet(Type result)
+        public void AddResultForGet(IList<Type> result)
         {
             getResult.Add(result);
         }
@@ -50,7 +50,7 @@ namespace Pandora.Tests.Mocks
             callsToMethod[methodName]++;
         }
 
-        public Type Get<T>() where T : class
+        public IList<Type> Get<T>() where T : class
         {
             var methodName = MethodBase.GetCurrentMethod().Name;
             CountMethodCall(methodName);
@@ -61,7 +61,7 @@ namespace Pandora.Tests.Mocks
             return result;
         }
 
-        public Type Get(Type type)
+        public IList<Type> Get(Type type)
         {
             throw new NotImplementedException();
         }

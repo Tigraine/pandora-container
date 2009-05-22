@@ -30,17 +30,17 @@ namespace Pandora.Tests
                 store.Add<IService, ClassWithNoDependencies>
                 );
 
-            var type = store.Get<IService>();
+            var type = store.Get<IService>()[0];
             Assert.Equal(type, typeof(ClassWithNoDependencies));
         }
 
         [Fact]
-        public void CannotInsertOneKeyTwice()
+        public void CanInsertKeyTwice()
         {
             var store = new ComponentStore();
             store.Add<IService, ClassWithNoDependencies>();
 
-            Assert.Throws<InvalidOperationException>(store.Add<IService, ClassWithNoDependencies>);
+            Assert.DoesNotThrow(store.Add<IService, ClassWithNoDependencies>);
         }
 
         [Fact]

@@ -63,6 +63,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResolverFixture.cs" />
     <Compile Include="Testclasses\ClassDependingOnClassWithOneDependency.cs" />
+    <Compile Include="Testclasses\ClassWithDependencyOnItsOwnService.cs" />
     <Compile Include="Testclasses\ClassWithMultipleConstructors.cs" />
     <Compile Include="Testclasses\ClassWithNoDependencies.cs" />
     <Compile Include="Testclasses\ClassWithOneDependency.cs" />

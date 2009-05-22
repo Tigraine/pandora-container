@@ -5,7 +5,6 @@ using System.Collections.Generic;
 namespace Pandora
 {
     public class CollidingDictionary<TKey, TValue>
-        where TKey : IEquatable<TKey>
     {
         private IDictionary<TKey, IList<TValue>> dictionary = new Dictionary<TKey, IList<TValue>>();
         public void Add(TKey key, TValue value)
@@ -23,6 +22,11 @@ namespace Pandora
         public IList<TValue> this[TKey key]
         {
             get { return Get(key); }
+        }
+
+        public bool ContainsKey(TKey key)
+        {
+            return dictionary.ContainsKey(key);
         }
     }
 }
