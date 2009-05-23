@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -46,12 +47,13 @@ namespace Pandora
 
         private object Resolve(Type targetType, IList<IRegistration> parents)
         {
+            IList<IRegistration> localParents = new List<IRegistration>(parents);
             Type componentType;
             try
             {
-                var registration = SkipParents(componentStore.GetRegistrationsForService(targetType), parents);
+                var registration = SkipParents(componentStore.GetRegistrationsForService(targetType), localParents);
                 componentType = registration.Implementor;
-                parents.Add(registration);
+                localParents.Add(registration);
             }
             catch (KeyNotFoundException)
             {
@@ -76,7 +78,7 @@ namespace Pandora
                     
                     try
                     {
-                        resolvedParameters.Add(Resolve(type, parents));
+                        resolvedParameters.Add(Resolve(type, localParents));
                     }
                     catch (ServiceNotFoundException exception)
                     {

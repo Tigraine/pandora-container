@@ -161,5 +161,18 @@ namespace Pandora.Tests
 
             Assert.Throws<DependencyMissingException>(() => container.Resolve<IService>());
         }
+
+        [Fact]
+        public void CanResolveClassWithTwoDependenciesOnItsOwnServiceWithOnlyOneSubdependencyRegistration()
+        {
+            var store = new ComponentStore();
+            store.Add<IService, ClassWithTwoDependenciesOnItsOwnService>();
+            store.Add<IService, ClassWithNoDependencies>();
+
+            var container = new PandoraContainer(store);
+
+            var service = container.Resolve<IService>();
+            Assert.IsType(typeof (ClassWithTwoDependenciesOnItsOwnService), service);
+        }
     }
 }
