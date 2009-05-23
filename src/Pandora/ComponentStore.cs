@@ -16,30 +16,40 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Pandora
 {
     public class ComponentStore : IComponentStore
     {
-        private CollidingDictionary<Type, Type> store = new CollidingDictionary<Type, Type>();
+        private IList<IRegistration> registrations = new List<IRegistration>();
+
         public void Add<T, TType>() where T : class where TType : T
         {
-            var type = typeof(T);
-/*            if (store.ContainsKey(type))
-            {
-                throw new InvalidOperationException("Type " + type.FullName + " was already registered");
-            }*/
-            store.Add(type, typeof(TType));
+            Add<T, TType>(null);
+        }
+        public void Add<T, TType>(string name) where T : class where TType : T
+        {
+            var registration = new Registration
+                                   {
+                                       Service = typeof (T),
+                                       Implementor = typeof (TType),
+                                       Name = name
+                                   };
+            registrations.Add(registration);
         }
 
-        public IList<Type> Get<T>() where T : class
+        public IList<IRegistration> GetRegistrationsForService<T>() where T : class
         {
-            return Get(typeof (T));
+            return GetRegistrationsForService(typeof (T));
         }
 
-        public IList<Type> Get(Type type)
+        public IList<IRegistration> GetRegistrationsForService(Type type)
         {
-            return store[type];
+            var service = registrations.Where(p => p.Service == type).ToList();
+            if (service.Count == 0)
+                throw new KeyNotFoundException(String.Format("No Component implementing {0} could be found", type.FullName));
+            return service;
         }
     }
 }

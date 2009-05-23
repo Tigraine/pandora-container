@@ -23,15 +23,16 @@ namespace Pandora.Tests
     public class ComponentStoreFixture
     {
         [Fact]
-        public void CanInsertAndRetrieveByKey()
+        public void CanInsertRegistration()
         {
             var store = new ComponentStore();
+
             Assert.DoesNotThrow(
-                store.Add<IService, ClassWithNoDependencies>
+                    store.Add<IService, ClassWithNoDependencies>
                 );
 
-            var type = store.Get<IService>()[0];
-            Assert.Equal(type, typeof(ClassWithNoDependencies));
+            var registration = store.GetRegistrationsForService<IService>()[0];
+            Assert.Equal(registration.Implementor, typeof(ClassWithNoDependencies));
         }
 
         [Fact]
@@ -48,7 +49,7 @@ namespace Pandora.Tests
         {
             var store = new ComponentStore();
 
-            Assert.Throws<KeyNotFoundException>(() => store.Get<IService>());
+            Assert.Throws<KeyNotFoundException>(() => store.GetRegistrationsForService<IService>());
         }
     }
 }

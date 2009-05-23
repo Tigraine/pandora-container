@@ -35,7 +35,7 @@ namespace Pandora
             componentStore.Add<T, TImplementor>();
         }
 
-        private Type SkipParents(IList<Type> candidates, IList<Type> parents)
+        private IRegistration SkipParents(IList<IRegistration> candidates, IList<IRegistration> parents)
         {
             foreach (var candidate in candidates)
             {
@@ -44,13 +44,14 @@ namespace Pandora
             throw new KeyNotFoundException();
         }
 
-        private object Resolve(Type targetType, IList<Type> parents)
+        private object Resolve(Type targetType, IList<IRegistration> parents)
         {
             Type componentType;
             try
             {
-                componentType = SkipParents(componentStore.Get(targetType), parents);
-                parents.Add(componentType);
+                var registration = SkipParents(componentStore.GetRegistrationsForService(targetType), parents);
+                componentType = registration.Implementor;
+                parents.Add(registration);
             }
             catch (KeyNotFoundException)
             {
@@ -96,7 +97,7 @@ namespace Pandora
         public T Resolve<T>()
             where T : class
         {
-            return (T)Resolve(typeof (T), new List<Type>());
+            return (T)Resolve(typeof (T), new List<IRegistration>());
         }
     }
 }

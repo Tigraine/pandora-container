@@ -24,9 +24,13 @@ namespace Pandora
             where T : class
             where TType : T;
 
-        IList<Type> Get<T>()
+        void Add<T, TType>(string name)
+            where T : class
+            where TType : T;
+
+        IList<IRegistration> GetRegistrationsForService<T>()
             where T : class;
 
-        IList<Type> Get(Type type);
+        IList<IRegistration> GetRegistrationsForService(Type type);
     }
 }

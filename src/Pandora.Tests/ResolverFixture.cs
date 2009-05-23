@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-using Pandora.Tests.Mocks;
 using Pandora.Tests.Testclasses;
 using Xunit;
 
@@ -21,19 +20,6 @@ namespace Pandora.Tests
 {
     public class ResolverFixture
     {
-        [Fact]
-        public void CanRegisterComponent()
-        {
-            ComponentStoreStub componentStore = new ComponentStoreStub();
-
-            var locator = new PandoraContainer(componentStore);
-            
-            locator.AddComponent<IService, ClassWithNoDependencies>();
-
-            var callCount = componentStore.GetCallCount("Add");
-            Assert.Equal(1, callCount);
-        }
-
         [Fact]
         public void CanResolveClassWithoutDependencies()
         {
@@ -142,6 +128,27 @@ namespace Pandora.Tests
             Assert.IsType(typeof (ClassWithDependencyOnItsOwnService), service);
             var ownService = (ClassWithDependencyOnItsOwnService)service;
             Assert.IsType(typeof (ClassWithNoDependencies), ownService.SubService);
+        }
+
+        [Fact]
+        public void CanResolveDependencyChainOfSameServiceWithMultipleLevels()
+        {
+            var store = new ComponentStore();
+            store.Add<IService, ClassWithDependencyOnItsOwnService>();
+            store.Add<IService, ClassWithDependencyOnItsOwnService>();
+            store.Add<IService, ClassWithNoDependencies>();
+
+            var container = new PandoraContainer(store);
+
+            var service = container.Resolve<IService>();
+
+            var level1 = (ClassWithDependencyOnItsOwnService) service;
+            var level2 = (ClassWithDependencyOnItsOwnService) level1.SubService;
+            var level3 = (ClassWithNoDependencies)level2.SubService;
+
+            Assert.IsType(typeof (ClassWithDependencyOnItsOwnService), level1);
+            Assert.IsType(typeof(ClassWithDependencyOnItsOwnService), level2);
+            Assert.IsType(typeof(ClassWithNoDependencies), level3);
         }
 
         [Fact]
