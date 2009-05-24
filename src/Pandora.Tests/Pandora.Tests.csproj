@@ -60,7 +60,7 @@
     <Compile Include="ComponentStoreFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RegistrationFixture.cs" />
-    <Compile Include="ResolverFixture.cs" />
+    <Compile Include="ContainerFixture.cs" />
     <Compile Include="Testclasses\ClassDependingOnClassWithOneDependency.cs" />
     <Compile Include="Testclasses\ClassWithDependencyOnItsOwnService.cs" />
     <Compile Include="Testclasses\ClassWithMultipleConstructors.cs" />

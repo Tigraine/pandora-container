@@ -16,17 +16,19 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Pandora
 {
     public class PandoraContainer
     {
-        private readonly IComponentStore componentStore;
+        private IComponentStore componentStore;
+        private Resolver resolver;
+
 
         public PandoraContainer(IComponentStore componentStore)
         {
             this.componentStore = componentStore;
+            resolver = new Resolver(componentStore);
         }
 
         public void AddComponent<T, TImplementor>()
@@ -36,70 +38,16 @@ namespace Pandora
             componentStore.Add<T, TImplementor>();
         }
 
-        private IRegistration SkipParents(IList<IRegistration> candidates, IList<IRegistration> parents)
-        {
-            foreach (var candidate in candidates)
-            {
-                if (!parents.Contains(candidate)) return candidate;
-            }
-            throw new KeyNotFoundException();
-        }
-
-        private object Resolve(Type targetType, IList<IRegistration> parents)
-        {
-            IList<IRegistration> localParents = new List<IRegistration>(parents);
-            Type componentType;
-            try
-            {
-                var registration = SkipParents(componentStore.GetRegistrationsForService(targetType), localParents);
-                componentType = registration.Implementor;
-                localParents.Add(registration);
-            }
-            catch (KeyNotFoundException)
-            {
-                throw new ServiceNotFoundException(targetType.FullName);
-            }
-
-            var constructors = componentType.GetConstructors()
-                                    .OrderByDescending(p => p.GetParameters().Count());
-            
-            IList<DependencyMissingException> missingDependencies = new List<DependencyMissingException>();
-            foreach (var info in constructors)
-            {
-                missingDependencies = new List<DependencyMissingException>();
-                var parameters = info.GetParameters();
-                if (parameters.Length == 0) //Fast way out.
-                    return Activator.CreateInstance(componentType);
-
-                IList<object> resolvedParameters = new List<object>();
-                foreach (var parameter in parameters)
-                {
-                    Type type = parameter.ParameterType;
-                    
-                    try
-                    {
-                        resolvedParameters.Add(Resolve(type, localParents));
-                    }
-                    catch (ServiceNotFoundException exception)
-                    {
-                        missingDependencies.Add(new DependencyMissingException(exception.Message));
-                    }
-                }
-                if (resolvedParameters.Count == parameters.Length)
-                    return Activator.CreateInstance(componentType, resolvedParameters.ToArray());
-            }
-            if (missingDependencies.Count > 0)
-                throw missingDependencies.First(); //TODO: Expose all missing dependencies
-
-
-            //Need to implement errormessage
-            throw new NotImplementedException();
-        }
+        
 
         public T Resolve<T>()
-            where T : class
         {
-            return (T)Resolve(typeof (T), new List<IRegistration>());
+            return (T)resolver.ActivateType(typeof (T), new List<IRegistration>());
+        }
+
+        public object Resolve(Type type)
+        {
+            return resolver.ActivateType(type, new List<IRegistration>());
         }
     }
 }

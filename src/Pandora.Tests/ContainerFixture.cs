@@ -18,7 +18,7 @@ using Xunit;
 
 namespace Pandora.Tests
 {
-    public class ResolverFixture
+    public class ContainerFixture
     {
         [Fact]
         public void CanResolveClassWithoutDependencies()
@@ -167,6 +167,37 @@ namespace Pandora.Tests
         {
             var store = new ComponentStore();
             store.Add<IService, ClassWithTwoDependenciesOnItsOwnService>();
+            store.Add<IService, ClassWithNoDependencies>();
+
+            var container = new PandoraContainer(store);
+
+            var service = container.Resolve<IService>();
+            Assert.IsType(typeof (ClassWithTwoDependenciesOnItsOwnService), service);
+        }
+
+        [Fact]
+        public void CanSplitGraph()
+        {
+
+            /*
+             * Dotty Graph: 
+             * 
+            digraph G {
+              a [label="IService :: A"] ;
+              a -> b [label="service1"] ;
+              a -> c [label="service2"] ;
+              b [label="IService :: B"] ;
+              b -> d ;
+              d [label="IService :: C"] ;
+              c [label="IService :: B"] ;
+              c -> f ;
+              f [label="IService :: C"] ;
+            }
+             */
+
+            var store = new ComponentStore();
+            store.Add<IService, ClassWithTwoDependenciesOnItsOwnService>();
+            store.Add<IService, ClassWithDependencyOnItsOwnService>();
             store.Add<IService, ClassWithNoDependencies>();
 
             var container = new PandoraContainer(store);

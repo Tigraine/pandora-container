@@ -55,6 +55,8 @@
     <Compile Include="PandoraContainer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Registration.cs" />
+    <Compile Include="CommonServiceLocatorAdapter.cs" />
+    <Compile Include="Resolver.cs" />
     <Compile Include="ServiceNotFoundException.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
