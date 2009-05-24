@@ -29,7 +29,7 @@ namespace Pandora
             this.componentStore = componentStore;
         }
 
-        private IRegistration SkipParents(IList<IRegistration> candidates, IList<IRegistration> parents)
+        private IRegistration SkipParents(IEnumerable<IRegistration> candidates, ICollection<IRegistration> parents)
         {
             foreach (var candidate in candidates)
             {
@@ -38,12 +38,12 @@ namespace Pandora
             throw new KeyNotFoundException();
         }
 
-        private object ActivateInstance(Type type, object[] parameters)
+        private static object ActivateInstance(Type type, object[] parameters)
         {
             return Activator.CreateInstance(type, parameters);
         }
 
-        public object ActivateType(Type targetType, IList<IRegistration> parents)
+        private object CreateType(Type targetType, IEnumerable<IRegistration> parents)
         {
             IList<IRegistration> localParents = new List<IRegistration>(parents);
             Type componentType;
@@ -76,7 +76,7 @@ namespace Pandora
 
                     try
                     {
-                        resolvedParameters.Add(ActivateType(type, localParents));
+                        resolvedParameters.Add(CreateType(type, localParents));
                     }
                     catch (ServiceNotFoundException exception)
                     {
@@ -92,6 +92,11 @@ namespace Pandora
 
             //Need to implement errormessage
             throw new NotImplementedException();
+        }
+        
+        public object CreateType(Type serviceType)
+        {
+            return CreateType(serviceType, new List<IRegistration>());
         }
     }
 }

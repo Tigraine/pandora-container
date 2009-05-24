@@ -21,8 +21,8 @@ namespace Pandora
 {
     public class PandoraContainer
     {
-        private IComponentStore componentStore;
-        private Resolver resolver;
+        private readonly IComponentStore componentStore;
+        private readonly Resolver resolver;
 
 
         public PandoraContainer(IComponentStore componentStore)
@@ -39,15 +39,14 @@ namespace Pandora
         }
 
         
-
         public T Resolve<T>()
         {
-            return (T)resolver.ActivateType(typeof (T), new List<IRegistration>());
+            return (T)Resolve(typeof (T));
         }
 
         public object Resolve(Type type)
         {
-            return resolver.ActivateType(type, new List<IRegistration>());
+            return resolver.CreateType(type);
         }
     }
 }
