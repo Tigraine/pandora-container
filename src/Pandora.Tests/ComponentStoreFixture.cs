@@ -36,7 +36,7 @@ namespace Pandora.Tests
         }
 
         [Fact]
-        public void CanInsertKeyTwice()
+        public void CanInsertServiceTwice()
         {
             var store = new ComponentStore();
             store.Add<IService, ClassWithNoDependencies>();
