@@ -53,14 +53,17 @@
     <Compile Include="DependencyMissingException.cs" />
     <Compile Include="ComponentActivator.cs" />
     <Compile Include="IComponentActivator.cs" />
+    <Compile Include="IComponentLookup.cs" />
     <Compile Include="IComponentStore.cs" />
     <Compile Include="IRegistration.cs" />
+    <Compile Include="LookupService.cs" />
     <Compile Include="Model\CreationContext.cs" />
     <Compile Include="PandoraContainer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Registration.cs" />
     <Compile Include="CommonServiceLocatorAdapter.cs" />
     <Compile Include="Resolver.cs" />
+    <Compile Include="ResolverContext.cs" />
     <Compile Include="ServiceNotFoundException.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

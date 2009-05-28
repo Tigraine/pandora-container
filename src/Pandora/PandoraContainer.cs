@@ -27,7 +27,9 @@ namespace Pandora
         public PandoraContainer(IComponentStore componentStore)
         {
             this.componentStore = componentStore;
-            resolver = new Resolver(componentStore, new ComponentActivator());
+            var lookupService = new LookupService(componentStore);
+            var activator = new ComponentActivator();
+            resolver = new Resolver(activator, lookupService);
         }
 
         public void AddComponent<T, TImplementor>()

@@ -23,49 +23,31 @@ namespace Pandora
 
     public class Resolver
     {
-        private readonly IComponentStore componentStore;
         private readonly IComponentActivator activator;
+        private readonly IComponentLookup componentLookup;
 
-        public Resolver(IComponentStore componentStore, IComponentActivator activator)
+        public Resolver(IComponentActivator activator, IComponentLookup componentLookup)
         {
-            this.componentStore = componentStore;
             this.activator = activator;
+            this.componentLookup = componentLookup;
         }
 
-        private IRegistration SkipParents(IEnumerable<IRegistration> candidates, ICollection<IRegistration> parents)
+        private IRegistration ImplementorLookup(Type targetType, ResolverContext context)
         {
-            foreach (var candidate in candidates)
-            {
-                if (!parents.Contains(candidate)) return candidate;
-            }
-            throw new KeyNotFoundException();
+            return componentLookup.LookupType(targetType, context);
         }
 
-        private object ActivateInstance(Type type, object[] parameters)
+        private CreationContext CreateReturnContext(Type type, object[] parameters)
         {
-            var context = new CreationContext
-                              {
-                                  Arguments = parameters,
-                                  ConcreteType = type
-                              };
-            return activator.CreateInstance(context);
+            return new CreationContext
+            {
+                ConcreteType = type,
+                Arguments = parameters
+            };
         }
 
-        private object CreateType(Type targetType, IEnumerable<IRegistration> parents)
+        public CreationContext GenerateCreationContext(Type componentType, ResolverContext context)
         {
-            IList<IRegistration> localParents = new List<IRegistration>(parents);
-            Type componentType;
-            try
-            {
-                var registration = SkipParents(componentStore.GetRegistrationsForService(targetType), localParents);
-                componentType = registration.Implementor;
-                localParents.Add(registration);
-            }
-            catch (KeyNotFoundException)
-            {
-                throw new ServiceNotFoundException(targetType.FullName);
-            }
-
             var constructors = componentType.GetConstructors()
                 .OrderByDescending(p => p.GetParameters().Count());
 
@@ -75,7 +57,7 @@ namespace Pandora
                 missingDependencies = new List<DependencyMissingException>();
                 var parameters = info.GetParameters();
                 if (parameters.Length == 0) //Fast way out.
-                    return ActivateInstance(componentType, null);
+                    return CreateReturnContext(componentType, null);
 
                 IList<object> resolvedParameters = new List<object>();
                 foreach (var parameter in parameters)
@@ -84,7 +66,7 @@ namespace Pandora
 
                     try
                     {
-                        resolvedParameters.Add(CreateType(type, localParents));
+                        resolvedParameters.Add(CreateType(type, context));
                     }
                     catch (ServiceNotFoundException exception)
                     {
@@ -92,19 +74,25 @@ namespace Pandora
                     }
                 }
                 if (resolvedParameters.Count == parameters.Length)
-                    return ActivateInstance(componentType, resolvedParameters.ToArray());
+                    return CreateReturnContext(componentType, resolvedParameters.ToArray());
             }
-            if (missingDependencies.Count > 0)
-                throw missingDependencies.First(); //TODO: Expose all missing dependencies
-
-
-            //Need to implement errormessage
-            throw new NotImplementedException();
+            throw missingDependencies.First(); //TODO: Expose all missing dependencies
         }
-        
+
+        public object CreateType(Type targetType, ResolverContext context)
+        {
+            //Need to create a deep copy of the Context to make splitting the graph possible
+            var localContext = ResolverContext.CreateContextFromContext(context);
+            var registration = ImplementorLookup(targetType, localContext);
+            Type componentType = registration.Implementor;
+
+            var creationContext = GenerateCreationContext(componentType, localContext);
+            return activator.CreateInstance(creationContext);
+        }
+
         public object CreateType(Type serviceType)
         {
-            return CreateType(serviceType, new List<IRegistration>());
+            return CreateType(serviceType, new ResolverContext());
         }
     }
 }
