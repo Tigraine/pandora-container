@@ -13,12 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-using System;
-using System.Collections;
-using System.Collections.Generic;
 
 namespace Pandora
 {
+    using System;
+
     public class PandoraContainer
     {
         private readonly IComponentStore componentStore;
@@ -28,7 +27,7 @@ namespace Pandora
         public PandoraContainer(IComponentStore componentStore)
         {
             this.componentStore = componentStore;
-            resolver = new Resolver(componentStore);
+            resolver = new Resolver(componentStore, new ComponentActivator());
         }
 
         public void AddComponent<T, TImplementor>()

@@ -51,7 +51,11 @@
   <ItemGroup>
     <Compile Include="ComponentStore.cs" />
     <Compile Include="DependencyMissingException.cs" />
+    <Compile Include="ComponentActivator.cs" />
+    <Compile Include="IComponentActivator.cs" />
     <Compile Include="IComponentStore.cs" />
+    <Compile Include="IRegistration.cs" />
+    <Compile Include="Model\CreationContext.cs" />
     <Compile Include="PandoraContainer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Registration.cs" />

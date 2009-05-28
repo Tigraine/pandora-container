@@ -14,19 +14,22 @@
  * limitations under the License.
  */
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
 namespace Pandora
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using Model;
+
     public class Resolver
     {
         private readonly IComponentStore componentStore;
+        private readonly IComponentActivator activator;
 
-        public Resolver(IComponentStore componentStore)
+        public Resolver(IComponentStore componentStore, IComponentActivator activator)
         {
             this.componentStore = componentStore;
+            this.activator = activator;
         }
 
         private IRegistration SkipParents(IEnumerable<IRegistration> candidates, ICollection<IRegistration> parents)
@@ -38,9 +41,14 @@ namespace Pandora
             throw new KeyNotFoundException();
         }
 
-        private static object ActivateInstance(Type type, object[] parameters)
+        private object ActivateInstance(Type type, object[] parameters)
         {
-            return Activator.CreateInstance(type, parameters);
+            var context = new CreationContext
+                              {
+                                  Arguments = parameters,
+                                  ConcreteType = type
+                              };
+            return activator.CreateInstance(context);
         }
 
         private object CreateType(Type targetType, IEnumerable<IRegistration> parents)
