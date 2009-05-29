@@ -20,7 +20,7 @@ namespace Pandora
     using Model;
     public class ComponentActivator : IComponentActivator
     {
-        public object CreateInstance(CreationContext context)
+        public virtual object CreateInstance(CreationContext context)
         {
             return Activator.CreateInstance(context.ConcreteType, context.Arguments);
         }

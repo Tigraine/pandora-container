@@ -37,7 +37,7 @@ namespace Pandora
             usedRegistrations = new List<IRegistration>();
         }
 
-        public void ConsumeRegistration(IRegistration registration)
+        public virtual void ConsumeRegistration(IRegistration registration)
         {
             usedRegistrations.Add(registration);
         }

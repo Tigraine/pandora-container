@@ -14,21 +14,21 @@
  * limitations under the License.
  */
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
 namespace Pandora
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
     public class ComponentStore : IComponentStore
     {
         private IList<IRegistration> registrations = new List<IRegistration>();
 
-        public void Add<T, TType>() where T : class where TType : T
+        public virtual void Add<T, TType>() where T : class where TType : T
         {
             Add<T, TType>(null);
         }
-        public void Add<T, TType>(string name) where T : class where TType : T
+        public virtual void Add<T, TType>(string name) where T : class where TType : T
         {
             var registration = new Registration
                                    {
@@ -39,12 +39,12 @@ namespace Pandora
             registrations.Add(registration);
         }
 
-        public IList<IRegistration> GetRegistrationsForService<T>() where T : class
+        public virtual IList<IRegistration> GetRegistrationsForService<T>() where T : class
         {
             return GetRegistrationsForService(typeof (T));
         }
 
-        public IList<IRegistration> GetRegistrationsForService(Type type)
+        public virtual IList<IRegistration> GetRegistrationsForService(Type type)
         {
             var service = registrations.Where(p => p.Service == type).ToList();
             if (service.Count == 0)

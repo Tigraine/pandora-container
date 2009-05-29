@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-using System;
-
 namespace Pandora.Model
 {
+    using System;
+
     public class CreationContext
     {
-        public Type ConcreteType { get; set; }
-        public object[] Arguments { get; set; }
+        public virtual Type ConcreteType { get; set; }
+        public virtual object[] Arguments { get; set; }
     }
 }

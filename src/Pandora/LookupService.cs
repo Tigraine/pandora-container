@@ -37,7 +37,7 @@ namespace Pandora
             throw new KeyNotFoundException();
         }
 
-        public IRegistration LookupType(Type targetType, ResolverContext context)
+        public virtual IRegistration LookupType(Type targetType, ResolverContext context)
         {
             IList<IRegistration> localParents = new List<IRegistration>(context.UsedRegistrations);
             try

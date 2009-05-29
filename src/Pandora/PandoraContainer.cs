@@ -32,7 +32,7 @@ namespace Pandora
             resolver = new Resolver(activator, lookupService);
         }
 
-        public void AddComponent<T, TImplementor>()
+        public virtual void AddComponent<T, TImplementor>()
             where T : class
             where TImplementor : T
         {
@@ -40,12 +40,12 @@ namespace Pandora
         }
 
         
-        public T Resolve<T>()
+        public virtual T Resolve<T>()
         {
             return (T)Resolve(typeof (T));
         }
 
-        public object Resolve(Type type)
+        public virtual object Resolve(Type type)
         {
             return resolver.CreateType(type);
         }
