@@ -30,6 +30,7 @@ namespace Pandora
         }
         public virtual void Add<T, TType>(string name) where T : class where TType : T
         {
+            if (registrations.Any(p => p.Name == name && p.Name != null)) throw new NameAlreadyRegisteredException(name);
             var registration = new Registration
                                    {
                                        Service = typeof (T),

@@ -51,5 +51,14 @@ namespace Pandora.Tests
 
             Assert.Throws<KeyNotFoundException>(() => store.GetRegistrationsForService<IService>());
         }
+
+        [Fact]
+        public void CannotInsertOneNameTwice()
+        {
+            var store = new ComponentStore();
+            var name = "test";
+            store.Add<IService, ClassWithNoDependencies>(name);
+            Assert.Throws<NameAlreadyRegisteredException>(() => store.Add<IService, ClassWithNoDependencies>(name));
+        }
     }
 }

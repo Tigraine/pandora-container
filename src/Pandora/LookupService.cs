@@ -16,7 +16,7 @@
 
 namespace Pandora
 {
-    using System;
+    using System.Linq;
     using System.Collections.Generic;
 
     public class LookupService : IComponentLookup
@@ -37,19 +37,23 @@ namespace Pandora
             throw new KeyNotFoundException();
         }
 
-        public virtual IRegistration LookupType(Type targetType, ResolverContext context)
+        public virtual IRegistration LookupType(Query query, ResolverContext context)
         {
             IList<IRegistration> localParents = new List<IRegistration>(context.UsedRegistrations);
             try
             {
-                var registrations = componentStore.GetRegistrationsForService(targetType);
+                var registrations = componentStore.GetRegistrationsForService(query.ServiceType);
+                if (query.Name != null)
+                {
+                    return registrations.Single(p => p.Name == query.Name);
+                }
                 var registration = SkipParents(registrations, localParents);
                 context.ConsumeRegistration(registration);
                 return registration;
             }
             catch (KeyNotFoundException)
             {
-                throw new ServiceNotFoundException(targetType.FullName);
+                throw new ServiceNotFoundException(query.ServiceType.FullName);
             }
         }
     }

@@ -16,8 +16,11 @@
 
 namespace Pandora
 {
-    public interface IComponentLookup
+    using System;
+    public class NameAlreadyRegisteredException : ApplicationException
     {
-        IRegistration LookupType(Query targetType, ResolverContext context);
+        public NameAlreadyRegisteredException(string name)
+            : base(String.Format("{0} was already registered with this Container", name))
+        {}
     }
 }

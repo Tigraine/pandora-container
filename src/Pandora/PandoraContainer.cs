@@ -47,7 +47,18 @@ namespace Pandora
 
         public virtual object Resolve(Type type)
         {
-            return resolver.CreateType(type);
+            return Resolve(type, null);
+        }
+
+        public virtual T Resolve<T>(string name)
+        {
+            return (T) Resolve(typeof (T), name);
+        }
+
+        public virtual object Resolve(Type type, string name)
+        {
+            var query = new Query { ServiceType = type, Name = name };
+            return resolver.CreateType(query);
         }
     }
 }
