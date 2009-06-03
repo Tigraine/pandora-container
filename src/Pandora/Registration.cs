@@ -34,7 +34,7 @@ namespace Pandora
             var parameter = parameters.SingleOrDefault(p => p.ParameterName == name);
             if (parameter != null)
                 return parameter;
-            var item = new RegistrationParameter(name);
+            var item = new RegistrationParameter(this, name);
             parameters.Add(item);
             return item;
         }

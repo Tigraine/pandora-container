@@ -16,24 +16,24 @@
 
 namespace Pandora.Tests
 {
+    using System.Linq;
     using Testclasses;
     using Xunit;
 
-    public class ExplicitDependencies
+    public class FluentInterface
     {
+        
         [Fact]
-        public void CanSpecifyDependencyByName()
+        public void CanRegisterMultipleParametersInARow()
         {
             var store = new ComponentStore();
-            store.Add<IService, ClassWithNoDependencies>("service1");
-            store.Add<IService, ClassWithNoDependencies2>("service2");
-            store.Add<ClassWithOneDependency, ClassWithOneDependency>()
-                .Parameters("dependency").Set("service2");
-            var container = new PandoraContainer(store);
+            store.Add<IService, ClassWithNoDependencies>()
+                .Parameters("test").Set("test")
+                .Parameters("repository").Set("something");
 
-            var service2 = container.Resolve<ClassWithOneDependency>();
-
-            Assert.IsType<ClassWithNoDependencies2>(service2.Dependency);
+            var registrations = store.GetRegistrationsForService<IService>().First();
+            Assert.NotNull(registrations.Parameters("test").ParameterValue);
+            Assert.NotNull(registrations.Parameters("repository").ParameterValue);
         }
     }
 }

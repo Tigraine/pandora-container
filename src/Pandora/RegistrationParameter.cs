@@ -18,8 +18,16 @@ namespace Pandora
 {
     public class RegistrationParameter : IRegistrationParameter
     {
+        private readonly IRegistration parentRegistry;
+
         private readonly string parameterName;
         private string parameterValue;
+
+        public RegistrationParameter(IRegistration parentRegistry, string parameterName)
+        {
+            this.parentRegistry = parentRegistry;
+            this.parameterName = parameterName;
+        }
 
         public string ParameterName
         {
@@ -31,14 +39,10 @@ namespace Pandora
             get { return parameterValue; }
         }
 
-        public RegistrationParameter(string parameterName)
-        {
-            this.parameterName = parameterName;
-        }
-
-        public void Eq(string value)
+        public IRegistration Set(string value)
         {
             parameterValue = value;
+            return parentRegistry;
         }
     }
 }

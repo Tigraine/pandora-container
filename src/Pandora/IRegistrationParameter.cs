@@ -20,6 +20,6 @@ namespace Pandora
     {
         string ParameterName { get; }
         string ParameterValue { get; }
-        void Eq(string value);
+        IRegistration Set(string value);
     }
 }
