@@ -13,12 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Pandora
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
     public class Registration : IRegistration
     {
         public Guid Guid { get; private set; }
@@ -62,39 +63,6 @@ namespace Pandora
         public override int GetHashCode()
         {
             return Guid.GetHashCode();
-        }
-    }
-
-    public interface IRegistrationParameter
-    {
-        string ParameterName { get; }
-        string ParameterValue { get; }
-        void Eq(string value);
-    }
-
-    public class RegistrationParameter : IRegistrationParameter
-    {
-        private readonly string parameterName;
-        private string parameterValue;
-
-        public string ParameterName
-        {
-            get { return parameterName; }
-        }
-
-        public string ParameterValue
-        {
-            get { return parameterValue; }
-        }
-
-        public RegistrationParameter(string parameterName)
-        {
-            this.parameterName = parameterName;
-        }
-
-        public void Eq(string value)
-        {
-            parameterValue = value;
         }
     }
 }

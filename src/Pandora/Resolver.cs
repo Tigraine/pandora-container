@@ -97,10 +97,4 @@ namespace Pandora
             return CreateType(query, new ResolverContext());
         }
     }
-
-    public class Query
-    {
-        public Type ServiceType { get; set; }
-        public string Name { get; set; }
-    }
 }

@@ -18,6 +18,7 @@ namespace Pandora
 {
     using System;
     using Model;
+
     public class ComponentActivator : IComponentActivator
     {
         public virtual object CreateInstance(CreationContext context)

@@ -16,22 +16,24 @@
 
 namespace Pandora.Tests
 {
+    using Testclasses;
     using Xunit;
 
-    public class RegistrationFixture
+    public class ExplicitDependencies
     {
         [Fact]
-        public void CanCompareTwoIRegistrations()
+        public void CanSpecifyDependencyByName()
         {
-            IRegistration registration = new Registration();
-            IRegistration registration2 = new Registration();
-            Assert.False(registration == registration2);
-        }
+            var store = new ComponentStore();
+            store.Add<IService, ClassWithNoDependencies>("service1");
+            store.Add<IService, ClassWithNoDependencies2>("service2");
+            store.Add<ClassWithOneDependency, ClassWithOneDependency>()
+                .Parameters("dependency").Eq("service2");
+            var container = new PandoraContainer(store);
 
-        [Fact]
-        public void ConstructorAssignsGuid()
-        {
-            Assert.NotNull(new Registration().Guid);
+            var service2 = container.Resolve<ClassWithOneDependency>();
+
+            Assert.IsType<ClassWithNoDependencies2>(service2.Dependency);
         }
     }
 }

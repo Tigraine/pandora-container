@@ -17,6 +17,7 @@
 namespace Pandora
 {
     using System;
+
     public class NameAlreadyRegisteredException : ApplicationException
     {
         public NameAlreadyRegisteredException(string name)

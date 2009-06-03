@@ -58,12 +58,15 @@
     <Compile Include="IComponentLookup.cs" />
     <Compile Include="IComponentStore.cs" />
     <Compile Include="IRegistration.cs" />
+    <Compile Include="IRegistrationParameter.cs" />
     <Compile Include="LookupService.cs" />
     <Compile Include="Model\CreationContext.cs" />
     <Compile Include="PandoraContainer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Query.cs" />
     <Compile Include="Registration.cs" />
     <Compile Include="CommonServiceLocatorAdapter.cs" />
+    <Compile Include="RegistrationParameter.cs" />
     <Compile Include="Resolver.cs" />
     <Compile Include="ResolverContext.cs" />
   </ItemGroup>

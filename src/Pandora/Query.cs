@@ -14,24 +14,13 @@
  * limitations under the License.
  */
 
-namespace Pandora.Tests
+namespace Pandora
 {
-    using Xunit;
+    using System;
 
-    public class RegistrationFixture
+    public class Query
     {
-        [Fact]
-        public void CanCompareTwoIRegistrations()
-        {
-            IRegistration registration = new Registration();
-            IRegistration registration2 = new Registration();
-            Assert.False(registration == registration2);
-        }
-
-        [Fact]
-        public void ConstructorAssignsGuid()
-        {
-            Assert.NotNull(new Registration().Guid);
-        }
+        public Type ServiceType { get; set; }
+        public string Name { get; set; }
     }
 }

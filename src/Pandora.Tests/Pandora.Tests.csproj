@@ -59,6 +59,7 @@
   <ItemGroup>
     <Compile Include="ComponentActivation.cs" />
     <Compile Include="ComponentStoreFixture.cs" />
+    <Compile Include="ExplicitDependencies.cs" />
     <Compile Include="NamedLookup.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RegistrationFixture.cs" />
@@ -81,9 +82,6 @@
       <Project>{1F4FF8BD-2E0E-4EF8-92BD-54861F7C1EC0}</Project>
       <Name>Pandora</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Mocks\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

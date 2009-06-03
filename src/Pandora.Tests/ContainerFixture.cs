@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-using Pandora.Tests.Testclasses;
-using Xunit;
-
 namespace Pandora.Tests
 {
+    using Testclasses;
+    using Xunit;
+
     public class ContainerFixture
     {
         [Fact]

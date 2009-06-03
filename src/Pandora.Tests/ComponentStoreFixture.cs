@@ -13,13 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-using System;
-using System.Collections.Generic;
-using Pandora.Tests.Testclasses;
-using Xunit;
-
 namespace Pandora.Tests
 {
+    using System.Collections.Generic;
+    using Testclasses;
+    using Xunit;
+
     public class ComponentStoreFixture
     {
         [Fact]
