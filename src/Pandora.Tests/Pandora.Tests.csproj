@@ -60,6 +60,7 @@
     <Compile Include="ComponentActivation.cs" />
     <Compile Include="ComponentStoreFixture.cs" />
     <Compile Include="ExplicitDependencies.cs" />
+    <Compile Include="FluentInterface.cs" />
     <Compile Include="NamedLookup.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RegistrationFixture.cs" />
