@@ -45,7 +45,10 @@ namespace Pandora
                 var registrations = componentStore.GetRegistrationsForService(query.ServiceType);
                 if (query.Name != null)
                 {
-                    return registrations.Single(p => p.Name == query.Name);
+                    var @default = registrations.SingleOrDefault(p => p.Name == query.Name);
+                    if (@default == null)
+                        throw new ServiceNotFoundException(query.ServiceType, query.Name);
+                    return @default;
                 }
                 var registration = SkipParents(registrations, localParents);
                 context.ConsumeRegistration(registration);
@@ -53,7 +56,7 @@ namespace Pandora
             }
             catch (KeyNotFoundException)
             {
-                throw new ServiceNotFoundException(query.ServiceType.FullName);
+                throw new ServiceNotFoundException(query.ServiceType);
             }
         }
     }

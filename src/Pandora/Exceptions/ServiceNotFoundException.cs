@@ -19,9 +19,15 @@ namespace Pandora
 {
     public class ServiceNotFoundException : ApplicationException
     {
-        public ServiceNotFoundException(string name)
-            : base(String.Format("No service for key {0} was found", name))
+        public ServiceNotFoundException(Type type)
+            : base(String.Format("No service for type {0} could be found", type.FullName))
         {
+        }
+
+        public ServiceNotFoundException(Type type, string name)
+            :base(String.Format("No service for type {0} named {1} could be found", type.FullName, name))
+        {
+            
         }
     }
 }

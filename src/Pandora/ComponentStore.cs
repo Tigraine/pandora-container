@@ -24,11 +24,11 @@ namespace Pandora
     {
         private IList<IRegistration> registrations = new List<IRegistration>();
 
-        public virtual void Add<T, TType>() where T : class where TType : T
+        public virtual IRegistration Add<T, TType>() where T : class where TType : T
         {
-            Add<T, TType>(null);
+            return Add<T, TType>(null);
         }
-        public virtual void Add<T, TType>(string name) where T : class where TType : T
+        public virtual IRegistration Add<T, TType>(string name) where T : class where TType : T
         {
             if (registrations.Any(p => p.Name == name && p.Name != null)) throw new NameAlreadyRegisteredException(name);
             var registration = new Registration
@@ -38,6 +38,7 @@ namespace Pandora
                                        Name = name
                                    };
             registrations.Add(registration);
+            return registration;
         }
 
         public virtual IList<IRegistration> GetRegistrationsForService<T>() where T : class

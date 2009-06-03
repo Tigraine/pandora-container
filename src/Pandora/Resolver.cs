@@ -46,8 +46,9 @@ namespace Pandora
             };
         }
 
-        public virtual CreationContext GenerateCreationContext(Type componentType, ResolverContext context)
+        public virtual CreationContext GenerateCreationContext(IRegistration registration, ResolverContext context)
         {
+            var componentType = registration.Implementor;
             var constructors = componentType.GetConstructors()
                 .OrderByDescending(p => p.GetParameters().Count());
 
@@ -62,11 +63,12 @@ namespace Pandora
                 IList<object> resolvedParameters = new List<object>();
                 foreach (var parameter in parameters)
                 {
+                    var dependencyName = registration.Parameters(parameter.Name).ParameterValue;
                     Type type = parameter.ParameterType;
 
                     try
                     {
-                        var query = new Query {ServiceType = type};
+                        var query = new Query {ServiceType = type, Name = dependencyName};
                         resolvedParameters.Add(CreateType(query, context));
                     }
                     catch (ServiceNotFoundException exception)
@@ -85,9 +87,8 @@ namespace Pandora
             //Need to create a deep copy of the Context to make splitting the graph possible
             var localContext = ResolverContext.CreateContextFromContext(context);
             var registration = FindSuitableImplementor(query, localContext);
-            Type implementor = registration.Implementor;
 
-            var creationContext = GenerateCreationContext(implementor, localContext);
+            var creationContext = GenerateCreationContext(registration, localContext);
             return activator.CreateInstance(creationContext);
         }
 

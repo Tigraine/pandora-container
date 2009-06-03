@@ -24,5 +24,6 @@ namespace Pandora
         Type Service { get; set; }
         Type Implementor { get; set; }
         string Name { get; set; }
+        IRegistrationParameter Parameters(string name);
     }
 }

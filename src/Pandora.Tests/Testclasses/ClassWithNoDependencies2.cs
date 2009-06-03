@@ -15,18 +15,8 @@
  */
 namespace Pandora.Tests.Testclasses
 {
-    public class ClassWithOneDependency : IService2
+    public class ClassWithNoDependencies2 : IService
     {
-        private readonly IService dependency;
-
-        public ClassWithOneDependency(IService dependency)
-        {
-            this.dependency = dependency;
-        }
-
-        public IService Dependency
-        {
-            get { return dependency; }
-        }
+        
     }
 }

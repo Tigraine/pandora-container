@@ -68,6 +68,7 @@
     <Compile Include="Testclasses\ClassWithDependencyOnItsOwnService.cs" />
     <Compile Include="Testclasses\ClassWithMultipleConstructors.cs" />
     <Compile Include="Testclasses\ClassWithNoDependencies.cs" />
+    <Compile Include="Testclasses\ClassWithNoDependencies2.cs" />
     <Compile Include="Testclasses\ClassWithOneDependency.cs" />
     <Compile Include="Testclasses\ClassWithTwoDependenciesOnItsOwnService.cs" />
     <Compile Include="Testclasses\IService.cs" />

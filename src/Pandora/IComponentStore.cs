@@ -20,11 +20,11 @@ namespace Pandora
 {
     public interface IComponentStore
     {
-        void Add<T, TType>()
+        IRegistration Add<T, TType>()
             where T : class
             where TType : T;
 
-        void Add<T, TType>(string name)
+        IRegistration Add<T, TType>(string name)
             where T : class
             where TType : T;
 

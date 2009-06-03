@@ -27,8 +27,8 @@ namespace Pandora.Tests
         {
             var store = new ComponentStore();
 
-            Assert.DoesNotThrow(
-                    store.Add<IService, ClassWithNoDependencies>
+            Assert.DoesNotThrow(() => 
+                    store.Add<IService, ClassWithNoDependencies>()
                 );
 
             var registration = store.GetRegistrationsForService<IService>()[0];
@@ -41,7 +41,7 @@ namespace Pandora.Tests
             var store = new ComponentStore();
             store.Add<IService, ClassWithNoDependencies>();
 
-            Assert.DoesNotThrow(store.Add<IService, ClassWithNoDependencies>);
+            Assert.DoesNotThrow(() => store.Add<IService, ClassWithNoDependencies>());
         }
 
         [Fact]

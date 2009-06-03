@@ -14,15 +14,30 @@
  * limitations under the License.
  */
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Pandora
 {
     public class Registration : IRegistration
     {
-        public Guid Guid {get;private set;}
+        public Guid Guid { get; private set; }
         public Type Service { get; set; }
         public Type Implementor { get; set; }
         public string Name { get; set; }
+
+        private IList<RegistrationParameter> parameters = new List<RegistrationParameter>();
+
+        public IRegistrationParameter Parameters(string name)
+        {
+            var parameter = parameters.SingleOrDefault(p => p.ParameterName == name);
+            if (parameter != null)
+                return parameter;
+            var item = new RegistrationParameter(name);
+            parameters.Add(item);
+            return item;
+        }
+
 
         public Registration()
         {
@@ -47,6 +62,39 @@ namespace Pandora
         public override int GetHashCode()
         {
             return Guid.GetHashCode();
+        }
+    }
+
+    public interface IRegistrationParameter
+    {
+        string ParameterName { get; }
+        string ParameterValue { get; }
+        void Eq(string value);
+    }
+
+    public class RegistrationParameter : IRegistrationParameter
+    {
+        private readonly string parameterName;
+        private string parameterValue;
+
+        public string ParameterName
+        {
+            get { return parameterName; }
+        }
+
+        public string ParameterValue
+        {
+            get { return parameterValue; }
+        }
+
+        public RegistrationParameter(string parameterName)
+        {
+            this.parameterName = parameterName;
+        }
+
+        public void Eq(string value)
+        {
+            parameterValue = value;
         }
     }
 }
