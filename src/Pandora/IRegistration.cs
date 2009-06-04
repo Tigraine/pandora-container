@@ -25,5 +25,6 @@ namespace Pandora
         Type Implementor { get; set; }
         string Name { get; set; }
         IRegistrationParameter Parameters(string name);
+        LifestyleConfiguration Lifestyle{ get; }
     }
 }

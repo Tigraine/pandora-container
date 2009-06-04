@@ -26,6 +26,7 @@ namespace Pandora
         public Type Service { get; set; }
         public Type Implementor { get; set; }
         public string Name { get; set; }
+        private ILifestyle lifestyle = null;
 
         private IList<RegistrationParameter> parameters = new List<RegistrationParameter>();
 
@@ -39,6 +40,10 @@ namespace Pandora
             return item;
         }
 
+        public LifestyleConfiguration Lifestyle
+        {
+            get { return new LifestyleConfiguration(this, newLifestyle => { lifestyle = newLifestyle; }); }
+        }
 
         public Registration()
         {
