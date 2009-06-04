@@ -20,48 +20,23 @@ namespace Pandora
     using System.Collections.Generic;
     using Microsoft.Practices.ServiceLocation;
 
-    public class CommonServiceLocatorAdapter : IServiceLocator
+    public class CommonServiceLocatorAdapter : ServiceLocatorImplBase
     {
-        private readonly PandoraContainer container;
+        private readonly IPandoraContainer container;
 
-        public CommonServiceLocatorAdapter(PandoraContainer container)
+        public CommonServiceLocatorAdapter(IPandoraContainer container)
         {
             this.container = container;
         }
 
-        public object GetService(Type serviceType)
+        protected override object DoGetInstance(Type serviceType, string key)
         {
-            throw new NotImplementedException();
+            return container.Resolve(serviceType, key);
         }
 
-        public object GetInstance(Type serviceType)
+        protected override IEnumerable<object> DoGetAllInstances(Type serviceType)
         {
-            return container.Resolve(serviceType);
-        }
-
-        public object GetInstance(Type serviceType, string key)
-        {
-            throw new NotImplementedException("Key lookups are not supported by Pandora");
-        }
-
-        public IEnumerable<object> GetAllInstances(Type serviceType)
-        {
-            throw new NotImplementedException();
-        }
-
-        public TService GetInstance<TService>()
-        {
-            return container.Resolve<TService>();
-        }
-
-        public TService GetInstance<TService>(string key)
-        {
-            throw new NotImplementedException("Key lookups are not supported by Pandora");
-        }
-
-        public IEnumerable<TService> GetAllInstances<TService>()
-        {
-            throw new NotImplementedException();
+            return container.ResolveAll(serviceType);
         }
     }
 }

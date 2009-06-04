@@ -17,17 +17,33 @@
 namespace Pandora
 {
     using System;
+    using System.Collections.Generic;
 
-    public class PandoraContainer
+    public interface IPandoraContainer
+    {
+        void AddComponent<T, TImplementor>()
+            where T : class
+            where TImplementor : T;
+
+        T Resolve<T>();
+        object Resolve(Type type);
+        T Resolve<T>(string name);
+        object Resolve(Type type, string name);
+        IEnumerable<T> ResolveAll<T>();
+        IEnumerable<object> ResolveAll(Type serviceType);
+    }
+
+    public class PandoraContainer : IPandoraContainer
     {
         private readonly IComponentStore componentStore;
         private readonly Resolver resolver;
+        private readonly LookupService lookupService;
 
 
         public PandoraContainer(IComponentStore componentStore)
         {
             this.componentStore = componentStore;
-            var lookupService = new LookupService(componentStore);
+            lookupService = new LookupService(componentStore);
             var activator = new ComponentActivator();
             resolver = new Resolver(activator, lookupService);
         }
@@ -59,6 +75,31 @@ namespace Pandora
         {
             var query = new Query { ServiceType = type, Name = name };
             return resolver.CreateType(query);
+        }
+
+        public IEnumerable<T> ResolveAll<T>()
+        {
+            foreach(var  service in ResolveAll(typeof(T)))
+            {
+                yield return (T) service;
+            }
+        }
+
+        public IEnumerable<object> ResolveAll(Type serviceType)
+        {
+            var registrations = componentStore.GetRegistrationsForService(serviceType);
+            foreach(var item in registrations)
+            {
+                object resolve = null;
+                try
+                {
+                    resolve = Resolve(item.Service);
+                }
+                catch
+                {}
+                if (resolve != null)
+                    yield return resolve;
+            }
         }
     }
 }
