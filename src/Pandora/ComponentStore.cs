@@ -19,6 +19,7 @@ namespace Pandora
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using Fluent;
 
     public class ComponentStore : IComponentStore
     {
@@ -30,15 +31,21 @@ namespace Pandora
         }
         public virtual IRegistration Add<T, TType>(string name) where T : class where TType : T
         {
-            if (registrations.Any(p => p.Name == name && p.Name != null)) throw new NameAlreadyRegisteredException(name);
             var registration = new Registration
-                                   {
-                                       Service = typeof (T),
-                                       Implementor = typeof (TType),
-                                       Name = name
-                                   };
-            registrations.Add(registration);
+            {
+                Service = typeof(T),
+                Implementor = typeof(TType),
+                Name = name
+            };
+            AddRegistration(registration);
             return registration;
+        }
+
+        internal void AddRegistration(IRegistration registration)
+        {
+            if (registrations.Any(p => p.Name == registration.Name && p.Name != null)) 
+                throw new NameAlreadyRegisteredException(registration.Name);
+            registrations.Add(registration);
         }
 
         public virtual IList<IRegistration> GetRegistrationsForService<T>() where T : class
@@ -52,6 +59,11 @@ namespace Pandora
             if (service.Count == 0)
                 throw new KeyNotFoundException(String.Format("No Component implementing {0} could be found", type.FullName));
             return service;
+        }
+
+        public void Register(Action<FluentRegistration> registrationClosure)
+        {
+            registrationClosure(new FluentRegistration(this));
         }
     }
 }

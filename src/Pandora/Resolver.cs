@@ -63,12 +63,15 @@ namespace Pandora
                 IList<object> resolvedParameters = new List<object>();
                 foreach (var parameter in parameters)
                 {
-                    var dependencyName = registration.Parameters(parameter.Name).ParameterValue;
+                    string explicitDependencyName = null;
+                    var parameterName = parameter.Name;
+                    if (registration.Parameters.ContainsKey(parameterName))
+                        explicitDependencyName = registration.Parameters[parameterName];
                     Type type = parameter.ParameterType;
 
                     try
                     {
-                        var query = new Query {ServiceType = type, Name = dependencyName};
+                        var query = new Query {ServiceType = type, Name = explicitDependencyName};
                         resolvedParameters.Add(CreateType(query, context));
                     }
                     catch (ServiceNotFoundException exception)

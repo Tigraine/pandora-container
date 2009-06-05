@@ -54,13 +54,16 @@
     <Compile Include="Exceptions\DependencyMissingException.cs" />
     <Compile Include="Exceptions\NameAlreadyRegisteredException.cs" />
     <Compile Include="Exceptions\ServiceNotFoundException.cs" />
+    <Compile Include="Fluent\FluentLifestyleOptions.cs" />
+    <Compile Include="Fluent\FluentParameterOptions.cs" />
+    <Compile Include="Fluent\FluentRegistration.cs" />
+    <Compile Include="Fluent\FluentServiceOptions.cs" />
     <Compile Include="IComponentActivator.cs" />
     <Compile Include="IComponentLookup.cs" />
     <Compile Include="IComponentStore.cs" />
     <Compile Include="ILifestyle.cs" />
     <Compile Include="IRegistration.cs" />
-    <Compile Include="IRegistrationParameter.cs" />
-    <Compile Include="Lifestyles.cs" />
+    <Compile Include="Lifestyles\ComponentLifestyles.cs" />
     <Compile Include="LookupService.cs" />
     <Compile Include="Model\CreationContext.cs" />
     <Compile Include="PandoraContainer.cs" />
@@ -68,11 +71,10 @@
     <Compile Include="Query.cs" />
     <Compile Include="Registration.cs" />
     <Compile Include="CommonServiceLocatorAdapter.cs" />
-    <Compile Include="RegistrationParameter.cs" />
     <Compile Include="Resolver.cs" />
     <Compile Include="ResolverContext.cs" />
-    <Compile Include="SingletonLifestyle.cs" />
-    <Compile Include="TransientLifestyle.cs" />
+    <Compile Include="Lifestyles\SingletonLifestyle.cs" />
+    <Compile Include="Lifestyles\TransientLifestyle.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

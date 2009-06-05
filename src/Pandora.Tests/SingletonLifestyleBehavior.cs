@@ -18,6 +18,7 @@ namespace Pandora.Tests
 {
     using Testclasses;
     using Xunit;
+    using Lifestyles;
 
     public class SingletonLifestyleBehavior
     {
@@ -26,7 +27,7 @@ namespace Pandora.Tests
         {
             var store = new ComponentStore();
             var registration = store.Add<IService, ClassWithNoDependencies>("test");
-            registration.Lifestyle = Lifestyles.Singleton;
+            registration.Lifestyle = ComponentLifestyles.Singleton;
 
             var container = new PandoraContainer(store);
 

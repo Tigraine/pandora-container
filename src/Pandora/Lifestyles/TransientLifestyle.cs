@@ -14,27 +14,15 @@
  * limitations under the License.
  */
 
-namespace Pandora
+namespace Pandora.Lifestyles
 {
     using System;
 
-    public class SingletonLifestyle : ILifestyle
+    public class TransientLifestyle : ILifestyle
     {
-        private object singleton;
-        private readonly object lockObject = new object();
         public object Execute(Func<object> action)
         {
-            if (singleton == null)
-            {
-                lock (lockObject)
-                {
-                    if (singleton == null)
-                    {
-                        singleton = action();
-                    }
-                }
-            }
-            return singleton;
+            return action();
         }
     }
 }

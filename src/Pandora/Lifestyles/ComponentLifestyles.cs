@@ -14,15 +14,24 @@
  * limitations under the License.
  */
 
-namespace Pandora
+namespace Pandora.Lifestyles
 {
-    using System;
-
-    public class TransientLifestyle : ILifestyle
+    public static class ComponentLifestyles
     {
-        public object Execute(Func<object> action)
+        public static ILifestyle Singleton
         {
-            return action();
+            get
+            {
+                return new SingletonLifestyle();
+            }
         }
+        public static ILifestyle Transient
+        {
+            get
+            {
+                return new TransientLifestyle();
+            }
+        }
+
     }
 }

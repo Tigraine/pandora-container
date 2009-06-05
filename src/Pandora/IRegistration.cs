@@ -17,6 +17,7 @@
 namespace Pandora
 {
     using System;
+    using System.Collections.Generic;
 
     public interface IRegistration
     {
@@ -24,7 +25,7 @@ namespace Pandora
         Type Service { get; set; }
         Type Implementor { get; set; }
         string Name { get; set; }
-        IRegistrationParameter Parameters(string name);
+        IDictionary<string, string> Parameters { get; set; }
         ILifestyle Lifestyle { get; set; }
     }
 }

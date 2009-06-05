@@ -14,11 +14,13 @@
  * limitations under the License.
  */
 
+
+
 namespace Pandora
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
+    using Lifestyles;
 
     public class Registration : IRegistration
     {
@@ -26,23 +28,18 @@ namespace Pandora
         public Type Service { get; set; }
         public Type Implementor { get; set; }
         public string Name { get; set; }
-        private ILifestyle lifestyle = Lifestyles.Singleton;
+        private ILifestyle lifestyle = ComponentLifestyles.Singleton;
         public ILifestyle Lifestyle
         {
             get { return lifestyle; }
             set { lifestyle = value; }
         }
 
-        private IList<RegistrationParameter> parameters = new List<RegistrationParameter>();
-
-        public IRegistrationParameter Parameters(string name)
+        private IDictionary<string, string> parameters = new Dictionary<string, string>();
+        public IDictionary<string, string> Parameters
         {
-            var parameter = parameters.SingleOrDefault(p => p.ParameterName == name);
-            if (parameter != null)
-                return parameter;
-            var item = new RegistrationParameter(this, name);
-            parameters.Add(item);
-            return item;
+            get { return parameters; }
+            set { parameters = value; }
         }
 
         public Registration()

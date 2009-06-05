@@ -14,24 +14,28 @@
  * limitations under the License.
  */
 
-namespace Pandora
+namespace Pandora.Fluent
 {
-    public static class Lifestyles
+    using Lifestyles;
+
+    public class FluentLifestyleOptions<T>
     {
-        public static ILifestyle Singleton
+        private readonly FluentRegistration registration;
+
+        public FluentLifestyleOptions(FluentRegistration registration)
         {
-            get
-            {
-                return new SingletonLifestyle();
-            }
-        }
-        public static ILifestyle Transient
-        {
-            get
-            {
-                return new TransientLifestyle();
-            }
+            this.registration = registration;
         }
 
+        public FluentServiceOptions<T> Singleton()
+        {
+            registration.componentRegistration.Lifestyle = new SingletonLifestyle();
+            return new FluentServiceOptions<T>(registration);
+        }
+        public FluentServiceOptions<T> Transient()
+        {
+            registration.componentRegistration.Lifestyle = new TransientLifestyle();
+            return new FluentServiceOptions<T>(registration);
+        }
     }
 }

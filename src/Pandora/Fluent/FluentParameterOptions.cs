@@ -14,12 +14,23 @@
  * limitations under the License.
  */
 
-namespace Pandora
+namespace Pandora.Fluent
 {
-    public interface IRegistrationParameter
+    public class FluentParameterOptions<T>
     {
-        string ParameterName { get; }
-        string ParameterValue { get; }
-        IRegistration Set(string value);
+        private readonly FluentRegistration registration;
+        private readonly string parameterName;
+
+        public FluentParameterOptions(FluentRegistration registration, string parameterName)
+        {
+            this.registration = registration;
+            this.parameterName = parameterName;
+        }
+
+        public FluentServiceOptions<T> Set(string value)
+        {
+            registration.componentRegistration.Parameters[parameterName] = value;
+            return new FluentServiceOptions<T>(registration);
+        }
     }
 }

@@ -14,35 +14,34 @@
  * limitations under the License.
  */
 
-namespace Pandora
+namespace Pandora.Fluent
 {
-    public class RegistrationParameter : IRegistrationParameter
+    public class FluentServiceOptions<T>
     {
-        private readonly IRegistration parentRegistry;
+        private readonly FluentRegistration registration;
 
-        private readonly string parameterName;
-        private string parameterValue;
-
-        public RegistrationParameter(IRegistration parentRegistry, string parameterName)
+        public FluentServiceOptions(FluentRegistration registration)
         {
-            this.parentRegistry = parentRegistry;
-            this.parameterName = parameterName;
+            this.registration = registration;
         }
 
-        public string ParameterName
+        public FluentServiceOptions<T> Implementor<S>() where S : T
         {
-            get { return parameterName; }
+            registration.componentRegistration.Implementor = typeof(S);
+            return this;
         }
 
-        public string ParameterValue
+        public FluentLifestyleOptions<T> Lifestyle
         {
-            get { return parameterValue; }
+            get
+            {
+                return new FluentLifestyleOptions<T>(registration);
+            }
         }
 
-        public IRegistration Set(string value)
+        public FluentParameterOptions<T> Parameters(string name)
         {
-            parameterValue = value;
-            return parentRegistry;
+            return new FluentParameterOptions<T>(registration, name);
         }
     }
 }

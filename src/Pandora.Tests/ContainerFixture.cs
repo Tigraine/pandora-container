@@ -35,7 +35,7 @@ namespace Pandora.Tests
         [Fact]
         public void CanResolveClassWithOneDependency()
         {
-            ComponentStore componentStore = new ComponentStore();
+            IComponentStore componentStore = new ComponentStore();
             componentStore.Add<IService, ClassWithNoDependencies>();
             componentStore.Add<IService2, ClassWithOneDependency>();
 

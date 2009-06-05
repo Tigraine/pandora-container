@@ -22,18 +22,94 @@ namespace Pandora.Tests
 
     public class FluentInterface
     {
-        
         [Fact]
         public void CanRegisterMultipleParametersInARow()
         {
             var store = new ComponentStore();
-            store.Add<IService, ClassWithNoDependencies>()
-                .Parameters("test").Set("test")
-                .Parameters("repository").Set("something");
+            store.Register(p => p.Service<IService>()
+                                    .Implementor<ClassWithNoDependencies>()
+                                    .Parameters("test").Set("test")
+                                    .Parameters("repository").Set("something"));
+            
 
             var registrations = store.GetRegistrationsForService<IService>().First();
-            Assert.NotNull(registrations.Parameters("test").ParameterValue);
-            Assert.NotNull(registrations.Parameters("repository").ParameterValue);
+            Assert.NotNull(registrations.Parameters["test"]);
+            Assert.NotNull(registrations.Parameters["repository"]);
+        }
+
+        [Fact]
+        public void CanConfigureLifestyle()
+        {
+            var store = new ComponentStore();
+            store.Register((p) =>
+                               {
+                                   p.Service<IService>()
+                                       .Implementor<ClassWithDependencyOnItsOwnService>()
+                                       .Lifestyle.Singleton();
+                                   p.Service<IService>()
+                                       .Implementor<ClassWithNoDependencies>()
+                                       .Lifestyle.Singleton();
+                               });
+            var container = new PandoraContainer(store);
+            Assert.DoesNotThrow(() => container.Resolve<IService>());
+        }
+
+        [Fact]
+        public void CanConfigureComponentWithoutSpecifyingLifestyleAndParameters()
+        {
+            var store = new ComponentStore();
+            Assert.DoesNotThrow(() => store.Register((p) => p.Service<IService>()
+                                                                .Implementor<ClassWithNoDependencies>()));
+            var container = new PandoraContainer(store);
+            Assert.DoesNotThrow(() => container.Resolve<IService>());
+        }
+
+        [Fact]
+        public void CanSpecifyParametersThroughFluentInterface()
+        {
+            var store = new ComponentStore();
+            store.Register(p =>
+                               {
+                                   p.Service<ClassWithDependencyOnItsOwnService>("myService")
+                                       .Implementor<ClassWithDependencyOnItsOwnService>()
+                                       .Parameters("service").Set("service1");
+                                   p.Service<IService>("service1")
+                                       .Implementor<ClassWithNoDependencies>();
+                                   p.Service<IService>("service2")
+                                       .Implementor<ClassWithTwoDependenciesOnItsOwnService>();
+                               });
+
+            var container = new PandoraContainer(store);
+            var service = container.Resolve<ClassWithDependencyOnItsOwnService>();
+            Assert.IsType<ClassWithNoDependencies>(service.SubService);
+        }
+
+        [Fact]
+        public void CanRegisterTwoServicesWithDifferentNames()
+        {
+            var store = new ComponentStore();
+            Assert.DoesNotThrow(() => store.Register(p =>
+                                                         {
+                                                             p.Service<IService>("service1")
+                                                                 .Implementor<ClassWithNoDependencies>();
+                                                             p.Service<IService>("service2")
+                                                                 .Implementor<ClassWithNoDependencies>();
+                                                         }));
+        }
+
+        [Fact]
+        public void ThrowsExceptionWhenRegisteringTwoServicesWithSameName()
+        {
+            var store = new ComponentStore();
+            Assert.Throws<NameAlreadyRegisteredException>(() => store.Register(p =>
+                                                                                   {
+                                                                                       p.Service<IService>("service1")
+                                                                                           .Implementor
+                                                                                           <ClassWithNoDependencies>();
+                                                                                       p.Service<IService>("service1")
+                                                                                           .Implementor
+                                                                                           <ClassWithNoDependencies>();
+                                                                                   }));
         }
     }
 }

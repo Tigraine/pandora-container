@@ -28,7 +28,7 @@ namespace Pandora.Tests
             store.Add<IService, ClassWithNoDependencies>("service1");
             store.Add<IService, ClassWithNoDependencies2>("service2");
             store.Add<ClassWithOneDependency, ClassWithOneDependency>()
-                .Parameters("dependency").Set("service2");
+                .Parameters["dependency"] = "service2";
             var container = new PandoraContainer(store);
 
             var service2 = container.Resolve<ClassWithOneDependency>();

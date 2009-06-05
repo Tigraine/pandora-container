@@ -14,26 +14,27 @@
  * limitations under the License.
  */
 
-namespace Pandora.Tests
+namespace Pandora.Lifestyles
 {
-    using Testclasses;
-    using Xunit;
-    using Lifestyles;
+    using System;
 
-    public class TransientLifestyleBehavior
+    public class SingletonLifestyle : ILifestyle
     {
-        [Fact]
-        public void ActivationHappensEveryTime()
+        private object singleton;
+        private readonly object lockObject = new object();
+        public object Execute(Func<object> action)
         {
-            var store = new ComponentStore();
-            var registration = store.Add<IService, ClassWithNoDependencies>();
-            registration.Lifestyle = ComponentLifestyles.Transient;
-
-            var container = new PandoraContainer(store);
-            var service = container.Resolve<IService>();
-            var service2 = container.Resolve<IService>();
-
-            Assert.NotSame(service, service2);
+            if (singleton == null)
+            {
+                lock (lockObject)
+                {
+                    if (singleton == null)
+                    {
+                        singleton = action();
+                    }
+                }
+            }
+            return singleton;
         }
     }
 }
