@@ -26,6 +26,12 @@ namespace Pandora
         public Type Service { get; set; }
         public Type Implementor { get; set; }
         public string Name { get; set; }
+        private ILifestyle lifestyle = Lifestyles.Singleton;
+        public ILifestyle Lifestyle
+        {
+            get { return lifestyle; }
+            set { lifestyle = value; }
+        }
 
         private IList<RegistrationParameter> parameters = new List<RegistrationParameter>();
 
@@ -38,7 +44,6 @@ namespace Pandora
             parameters.Add(item);
             return item;
         }
-
 
         public Registration()
         {

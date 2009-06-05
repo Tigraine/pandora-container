@@ -14,17 +14,25 @@
  * limitations under the License.
  */
 
-namespace Pandora
+namespace Pandora.Tests
 {
-    using System;
+    using Testclasses;
+    using Xunit;
 
-    public interface IRegistration
+    public class TransientLifestyleBehavior
     {
-        Guid Guid { get; }
-        Type Service { get; set; }
-        Type Implementor { get; set; }
-        string Name { get; set; }
-        IRegistrationParameter Parameters(string name);
-        ILifestyle Lifestyle { get; set; }
+        [Fact]
+        public void ActivationHappensEveryTime()
+        {
+            var store = new ComponentStore();
+            var registration = store.Add<IService, ClassWithNoDependencies>();
+            registration.Lifestyle = Lifestyles.Transient;
+
+            var container = new PandoraContainer(store);
+            var service = container.Resolve<IService>();
+            var service2 = container.Resolve<IService>();
+
+            Assert.NotSame(service, service2);
+        }
     }
 }

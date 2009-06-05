@@ -18,13 +18,23 @@ namespace Pandora
 {
     using System;
 
-    public interface IRegistration
+    public class SingletonLifestyle : ILifestyle
     {
-        Guid Guid { get; }
-        Type Service { get; set; }
-        Type Implementor { get; set; }
-        string Name { get; set; }
-        IRegistrationParameter Parameters(string name);
-        ILifestyle Lifestyle { get; set; }
+        private object singleton;
+        private readonly object lockObject = new object();
+        public object Execute(Func<object> action)
+        {
+            if (singleton == null)
+            {
+                lock (lockObject)
+                {
+                    if (singleton == null)
+                    {
+                        singleton = action();
+                    }
+                }
+            }
+            return singleton;
+        }
     }
 }

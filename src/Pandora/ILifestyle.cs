@@ -18,13 +18,8 @@ namespace Pandora
 {
     using System;
 
-    public interface IRegistration
+    public interface ILifestyle
     {
-        Guid Guid { get; }
-        Type Service { get; set; }
-        Type Implementor { get; set; }
-        string Name { get; set; }
-        IRegistrationParameter Parameters(string name);
-        ILifestyle Lifestyle { get; set; }
+        object Execute(Func<object> action);
     }
 }

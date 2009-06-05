@@ -16,15 +16,22 @@
 
 namespace Pandora
 {
-    using System;
-
-    public interface IRegistration
+    public static class Lifestyles
     {
-        Guid Guid { get; }
-        Type Service { get; set; }
-        Type Implementor { get; set; }
-        string Name { get; set; }
-        IRegistrationParameter Parameters(string name);
-        ILifestyle Lifestyle { get; set; }
+        public static ILifestyle Singleton
+        {
+            get
+            {
+                return new SingletonLifestyle();
+            }
+        }
+        public static ILifestyle Transient
+        {
+            get
+            {
+                return new TransientLifestyle();
+            }
+        }
+
     }
 }

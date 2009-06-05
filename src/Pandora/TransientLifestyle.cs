@@ -18,13 +18,11 @@ namespace Pandora
 {
     using System;
 
-    public interface IRegistration
+    public class TransientLifestyle : ILifestyle
     {
-        Guid Guid { get; }
-        Type Service { get; set; }
-        Type Implementor { get; set; }
-        string Name { get; set; }
-        IRegistrationParameter Parameters(string name);
-        ILifestyle Lifestyle { get; set; }
+        public object Execute(Func<object> action)
+        {
+            return action();
+        }
     }
 }

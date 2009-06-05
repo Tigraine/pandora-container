@@ -57,8 +57,10 @@
     <Compile Include="IComponentActivator.cs" />
     <Compile Include="IComponentLookup.cs" />
     <Compile Include="IComponentStore.cs" />
+    <Compile Include="ILifestyle.cs" />
     <Compile Include="IRegistration.cs" />
     <Compile Include="IRegistrationParameter.cs" />
+    <Compile Include="Lifestyles.cs" />
     <Compile Include="LookupService.cs" />
     <Compile Include="Model\CreationContext.cs" />
     <Compile Include="PandoraContainer.cs" />
@@ -69,6 +71,8 @@
     <Compile Include="RegistrationParameter.cs" />
     <Compile Include="Resolver.cs" />
     <Compile Include="ResolverContext.cs" />
+    <Compile Include="SingletonLifestyle.cs" />
+    <Compile Include="TransientLifestyle.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

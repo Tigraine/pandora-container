@@ -68,6 +68,7 @@
     <Compile Include="RegistrationFixture.cs" />
     <Compile Include="ContainerFixture.cs" />
     <Compile Include="ResolveAll.cs" />
+    <Compile Include="SingletonLifestyleBehavior.cs" />
     <Compile Include="Testclasses\ClassDependingOnAString.cs" />
     <Compile Include="Testclasses\ClassDependingOnClassWithOneDependency.cs" />
     <Compile Include="Testclasses\ClassWithDependencyOnItsOwnService.cs" />
@@ -80,6 +81,7 @@
     <Compile Include="Testclasses\IService2.cs" />
     <Compile Include="Testclasses\IService3.cs" />
     <Compile Include="Testclasses\IService4.cs" />
+    <Compile Include="TransientLifestyleBehavior.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Pandora\Pandora.csproj">

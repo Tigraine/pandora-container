@@ -22,7 +22,7 @@ namespace Pandora
 
     public class ComponentStore : IComponentStore
     {
-        private IList<IRegistration> registrations = new List<IRegistration>();
+        private readonly IList<IRegistration> registrations = new List<IRegistration>();
 
         public virtual IRegistration Add<T, TType>() where T : class where TType : T
         {
