@@ -35,13 +35,13 @@ namespace Pandora.Fluent
         {
             get
             {
-                return new FluentLifestyleOptions<T>(registration);
+                return new FluentLifestyleOptions<T>(registration, this);
             }
         }
 
         public FluentParameterOptions<T> Parameters(string name)
         {
-            return new FluentParameterOptions<T>(registration, name);
+            return new FluentParameterOptions<T>(registration, this, name);
         }
     }
 }
