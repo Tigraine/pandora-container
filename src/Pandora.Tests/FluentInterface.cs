@@ -17,6 +17,7 @@
 namespace Pandora.Tests
 {
     using System.Linq;
+    using Lifestyles;
     using Testclasses;
     using Xunit;
 
@@ -110,6 +111,18 @@ namespace Pandora.Tests
                                                                                            .Implementor
                                                                                            <ClassWithNoDependencies>();
                                                                                    }));
+        }
+
+        [Fact]
+        public void CanSpecifyCustomLifestyle()
+        {
+            var myLifestyle = new CustomLifestyle();
+            var store = new ComponentStore();
+            store.Register(p => p.Service<IService>()
+                                    .Implementor<ClassWithNoDependencies>()
+                                    .Lifestyle.Custom(myLifestyle));
+
+            Assert.IsType<CustomLifestyle>(store.GetRegistrationsForService<IService>().First().Lifestyle);
         }
     }
 }

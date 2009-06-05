@@ -77,6 +77,7 @@
     <Compile Include="Testclasses\ClassWithNoDependencies2.cs" />
     <Compile Include="Testclasses\ClassWithOneDependency.cs" />
     <Compile Include="Testclasses\ClassWithTwoDependenciesOnItsOwnService.cs" />
+    <Compile Include="Testclasses\CustomLifestyle.cs" />
     <Compile Include="Testclasses\IService.cs" />
     <Compile Include="Testclasses\IService2.cs" />
     <Compile Include="Testclasses\IService3.cs" />

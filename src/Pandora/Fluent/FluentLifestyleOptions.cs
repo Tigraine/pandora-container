@@ -37,5 +37,11 @@ namespace Pandora.Fluent
             registration.componentRegistration.Lifestyle = new TransientLifestyle();
             return new FluentServiceOptions<T>(registration);
         }
+
+        public FluentServiceOptions<T> Custom(ILifestyle lifestyle)
+        {
+            registration.componentRegistration.Lifestyle = lifestyle;
+            return new FluentServiceOptions<T>(registration);
+        }
     }
 }

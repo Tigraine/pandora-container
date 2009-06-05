@@ -30,6 +30,7 @@ namespace Pandora.Fluent
         {
             return Service<T>(null);
         }
+
         public FluentServiceOptions<T> Service<T>(string name)
         {
             componentRegistration = new Registration { Name = name, Service = typeof(T) };
