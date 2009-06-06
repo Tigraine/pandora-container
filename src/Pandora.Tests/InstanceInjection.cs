@@ -18,22 +18,33 @@ namespace Pandora.Tests
 {
     using Testclasses;
     using Xunit;
-    using Lifestyles;
 
-    public class TransientLifestyleBehavior
+    public class InstanceInjection
     {
         [Fact]
-        public void ActivationHappensEveryTime()
+        public void CanInsertInstanceForGivenServiceByName()
         {
             var store = new ComponentStore();
-            var registration = store.Add<IService, ClassWithNoDependencies>();
-            registration.Lifestyle = ComponentLifestyles.Transient;
-
+            var instance = new ClassWithNoDependencies();
+            store.AddInstance<IService>("test", instance);
             var container = new PandoraContainer(store);
-            var service = container.Resolve<IService>();
-            var service2 = container.Resolve<IService>();
 
-            Assert.NotSame(service, service2);
+            var service = container.Resolve<IService>("test");
+
+            Assert.Same(instance, service);
+        }
+
+        [Fact]
+        public void CanInsertInstanceWithoutName()
+        {
+            var store = new ComponentStore();
+            var instance = new ClassWithNoDependencies();
+            store.AddInstance<IService>(instance);
+            var container = new PandoraContainer(store);
+
+            var service = container.Resolve<IService>();
+
+            Assert.Same(instance, service);
         }
     }
 }

@@ -130,7 +130,7 @@ namespace Pandora.Tests
             var store = new ComponentStore();
             var instance = new ClassWithNoDependencies();
             store.Register(p => p.Service<IService>("test")
-                .Instance(instance));
+                                    .Instance(instance));
 
             //TODO: Maybe clean this up. Too much implementation detail
             var execute = store.GetRegistrationsForService(typeof(IService)).First().Lifestyle.Execute(null);
