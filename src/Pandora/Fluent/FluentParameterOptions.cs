@@ -19,17 +19,17 @@ namespace Pandora.Fluent
     public class FluentParameterOptions<T>
     {
         private readonly FluentRegistration registration;
-        private readonly FluentServiceOptions<T> parentOptions;
+        private readonly FluentImplementorOptions<T> parentOptions;
         private readonly string parameterName;
 
-        public FluentParameterOptions(FluentRegistration registration, FluentServiceOptions<T> parentOptions, string parameterName)
+        public FluentParameterOptions(FluentRegistration registration, FluentImplementorOptions<T> parentOptions, string parameterName)
         {
             this.registration = registration;
             this.parentOptions = parentOptions;
             this.parameterName = parameterName;
         }
 
-        public FluentServiceOptions<T> Set(string value)
+        public FluentImplementorOptions<T> Set(string value)
         {
             registration.componentRegistration.Parameters[parameterName] = value;
             return parentOptions;

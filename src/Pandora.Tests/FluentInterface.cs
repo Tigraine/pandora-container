@@ -17,7 +17,6 @@
 namespace Pandora.Tests
 {
     using System.Linq;
-    using Lifestyles;
     using Testclasses;
     using Xunit;
 
@@ -31,7 +30,7 @@ namespace Pandora.Tests
                                     .Implementor<ClassWithNoDependencies>()
                                     .Parameters("test").Set("test")
                                     .Parameters("repository").Set("something"));
-            
+
 
             var registrations = store.GetRegistrationsForService<IService>().First();
             Assert.NotNull(registrations.Parameters["test"]);

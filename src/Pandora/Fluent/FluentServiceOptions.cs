@@ -25,23 +25,10 @@ namespace Pandora.Fluent
             this.registration = registration;
         }
 
-        public FluentServiceOptions<T> Implementor<S>() where S : T
+        public FluentImplementorOptions<T> Implementor<S>() where S : T
         {
             registration.componentRegistration.Implementor = typeof(S);
-            return this;
-        }
-
-        public FluentLifestyleOptions<T> Lifestyle
-        {
-            get
-            {
-                return new FluentLifestyleOptions<T>(registration, this);
-            }
-        }
-
-        public FluentParameterOptions<T> Parameters(string name)
-        {
-            return new FluentParameterOptions<T>(registration, this, name);
+            return new FluentImplementorOptions<T>(registration);
         }
     }
 }
