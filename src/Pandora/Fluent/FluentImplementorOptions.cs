@@ -25,8 +25,6 @@ namespace Pandora.Fluent
             this.registration = registration;
         }
 
-        
-
         public FluentLifestyleOptions<T> Lifestyle
         {
             get

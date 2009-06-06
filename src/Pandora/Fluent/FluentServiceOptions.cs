@@ -16,6 +16,8 @@
 
 namespace Pandora.Fluent
 {
+    using Lifestyles;
+
     public class FluentServiceOptions<T>
     {
         private readonly FluentRegistration registration;
@@ -29,6 +31,11 @@ namespace Pandora.Fluent
         {
             registration.componentRegistration.Implementor = typeof(S);
             return new FluentImplementorOptions<T>(registration);
+        }
+
+        public void Instance<S>(S instance) where S : T
+        {
+            registration.componentRegistration.Lifestyle = new InjectedInstanceLifestyle(instance);
         }
     }
 }

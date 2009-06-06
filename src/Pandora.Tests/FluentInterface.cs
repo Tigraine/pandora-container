@@ -123,5 +123,18 @@ namespace Pandora.Tests
 
             Assert.IsType<CustomLifestyle>(store.GetRegistrationsForService<IService>().First().Lifestyle);
         }
+
+        [Fact]
+        public void CanInjectInstanceThroughFluentConfiguration()
+        {
+            var store = new ComponentStore();
+            var instance = new ClassWithNoDependencies();
+            store.Register(p => p.Service<IService>("test")
+                .Instance(instance));
+
+            //TODO: Maybe clean this up. Too much implementation detail
+            var execute = store.GetRegistrationsForService(typeof(IService)).First().Lifestyle.Execute(null);
+            Assert.Same(instance, execute);
+        }
     }
 }
