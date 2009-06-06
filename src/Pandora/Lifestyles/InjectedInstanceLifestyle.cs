@@ -14,26 +14,13 @@
  * limitations under the License.
  */
 
-namespace Pandora
+namespace Pandora.Lifestyles
 {
-    using System;
-    using System.Collections.Generic;
-
-    public interface IComponentStore
+    public class InjectedInstanceLifestyle : SingletonLifestyle
     {
-        IRegistration Add<T, TType>()
-            where T : class
-            where TType : T;
-
-        IRegistration Add<T, TType>(string name)
-            where T : class
-            where TType : T;
-
-        IList<IRegistration> GetRegistrationsForService<T>()
-            where T : class;
-
-        IList<IRegistration> GetRegistrationsForService(Type type);
-        IRegistration AddInstance<T>(string name, T instance);
-        IRegistration AddInstance<T>(T instance);
+        public InjectedInstanceLifestyle(object instance)
+        {
+            SetSingleton(instance);
+        }
     }
 }

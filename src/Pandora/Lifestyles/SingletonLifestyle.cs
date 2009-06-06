@@ -18,6 +18,7 @@ namespace Pandora.Lifestyles
 {
     using System;
 
+
     public class SingletonLifestyle : ILifestyle
     {
         private object singleton;
@@ -36,5 +37,14 @@ namespace Pandora.Lifestyles
             }
             return singleton;
         }
+
+        protected void SetSingleton(object instance)
+        {
+            lock (lockObject)
+            {
+                singleton = instance;
+            }
+        }
+
     }
 }

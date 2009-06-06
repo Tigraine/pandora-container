@@ -20,6 +20,7 @@ namespace Pandora
     using System.Collections.Generic;
     using System.Linq;
     using Fluent;
+    using Lifestyles;
 
     public class ComponentStore : IComponentStore
     {
@@ -64,6 +65,23 @@ namespace Pandora
         public void Register(Action<FluentRegistration> registrationClosure)
         {
             registrationClosure(new FluentRegistration(this));
+        }
+
+        public IRegistration AddInstance<T>(string name, T instance)
+        {
+            var registration = new Registration()
+                                   {
+                                       Service = typeof (T),
+                                       Name = name,
+                                       Lifestyle = new InjectedInstanceLifestyle(instance)
+                                   };
+            AddRegistration(registration);
+            return registration;
+        }
+
+        public IRegistration AddInstance<T>(T instance)
+        {
+            return AddInstance(null, instance);
         }
     }
 }

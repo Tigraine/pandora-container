@@ -36,4 +36,33 @@ namespace Pandora.Tests
             Assert.NotSame(service, service2);
         }
     }
+
+    public class InstanceInjection
+    {
+        [Fact]
+        public void CanInsertInstanceForGivenServiceByName()
+        {
+            var store = new ComponentStore();
+            var instance = new ClassWithNoDependencies();
+            store.AddInstance<IService>("test", instance);
+            var container = new PandoraContainer(store);
+
+            var service = container.Resolve<IService>("test");
+
+            Assert.Same(instance, service);
+        }
+
+        [Fact]
+        public void CanInsertInstanceWithoutName()
+        {
+            var store = new ComponentStore();
+            var instance = new ClassWithNoDependencies();
+            store.AddInstance<IService>(instance);
+            var container = new PandoraContainer(store);
+
+            var service = container.Resolve<IService>();
+
+            Assert.Same(instance, service);
+        }
+    }
 }

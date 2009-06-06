@@ -57,6 +57,7 @@
     <Compile Include="Fluent\FluentLifestyleOptions.cs" />
     <Compile Include="Fluent\FluentParameterOptions.cs" />
     <Compile Include="Fluent\FluentRegistration.cs" />
+    <Compile Include="Fluent\FluentImplementorOptions.cs" />
     <Compile Include="Fluent\FluentServiceOptions.cs" />
     <Compile Include="IComponentActivator.cs" />
     <Compile Include="IComponentLookup.cs" />
@@ -64,6 +65,7 @@
     <Compile Include="ILifestyle.cs" />
     <Compile Include="IRegistration.cs" />
     <Compile Include="Lifestyles\ComponentLifestyles.cs" />
+    <Compile Include="Lifestyles\InjectedInstanceLifestyle.cs" />
     <Compile Include="LookupService.cs" />
     <Compile Include="Model\CreationContext.cs" />
     <Compile Include="PandoraContainer.cs" />
