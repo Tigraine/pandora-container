@@ -57,6 +57,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BCLDependantTypeActivation.cs" />
     <Compile Include="CommonServiceLocatorAdapter.cs" />
     <Compile Include="ComponentActivation.cs" />
     <Compile Include="ComponentStoreFixture.cs" />
