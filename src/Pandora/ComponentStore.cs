@@ -20,17 +20,16 @@ namespace Pandora
     using System.Collections.Generic;
     using System.Linq;
     using Fluent;
-    using Lifestyles;
 
     public class ComponentStore : IComponentStore
     {
         private readonly IList<IRegistration> registrations = new List<IRegistration>();
 
-        public virtual IRegistration Add<T, TType>() where T : class where TType : T
+        public virtual IRegistration Add<T, TType>() where TType : T
         {
             return Add<T, TType>(null);
         }
-        public virtual IRegistration Add<T, TType>(string name) where T : class where TType : T
+        public virtual IRegistration Add<T, TType>(string name) where TType : T
         {
             var registration = new Registration
             {
@@ -69,14 +68,9 @@ namespace Pandora
 
         public IRegistration AddInstance<T>(string name, T instance)
         {
-            var registration = new Registration()
-                                   {
-                                       Service = typeof (T),
-                                       Name = name,
-                                       Lifestyle = new InjectedInstanceLifestyle(instance)
-                                   };
-            AddRegistration(registration);
-            return registration;
+            var add = Add<T, T>(name);
+            new RegistrationWriter(add).SetInstance(instance);
+            return add;
         }
 
         public IRegistration AddInstance<T>(T instance)

@@ -16,21 +16,20 @@
 
 namespace Pandora
 {
-    using System;
-    using System.Collections.Generic;
+    using Lifestyles;
 
-    public interface IComponentStore
+    public class RegistrationWriter
     {
-        IRegistration Add<T, TType>()
-            where TType : T;
+        private readonly IRegistration registration;
 
-        IRegistration Add<T, TType>(string name)
-            where TType : T;
+        public RegistrationWriter(IRegistration registration)
+        {
+            this.registration = registration;
+        }
 
-        IList<IRegistration> GetRegistrationsForService<T>();
-
-        IList<IRegistration> GetRegistrationsForService(Type type);
-        IRegistration AddInstance<T>(string name, T instance);
-        IRegistration AddInstance<T>(T instance);
+        public void SetInstance(object instance)
+        {
+            registration.Lifestyle = new InjectedInstanceLifestyle(instance);
+        }
     }
 }

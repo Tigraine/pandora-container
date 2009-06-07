@@ -73,6 +73,7 @@
     <Compile Include="Query.cs" />
     <Compile Include="Registration.cs" />
     <Compile Include="CommonServiceLocatorAdapter.cs" />
+    <Compile Include="RegistrationWriter.cs" />
     <Compile Include="Resolver.cs" />
     <Compile Include="ResolverContext.cs" />
     <Compile Include="Lifestyles\SingletonLifestyle.cs" />

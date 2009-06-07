@@ -21,6 +21,14 @@ namespace Pandora.Fluent
         private readonly ComponentStore store;
         internal IRegistration componentRegistration = new Registration();
 
+        internal RegistrationWriter Writer
+        {
+            get
+            {
+                return new RegistrationWriter(componentRegistration);
+            }
+        }
+
         public FluentRegistration(ComponentStore store)
         {
             this.store = store;
