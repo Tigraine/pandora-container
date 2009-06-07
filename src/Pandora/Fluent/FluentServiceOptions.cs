@@ -16,6 +16,8 @@
 
 namespace Pandora.Fluent
 {
+    using System;
+
     public class FluentServiceOptions<T>
     {
         private readonly FluentRegistration registration;

@@ -16,9 +16,11 @@
 
 namespace Pandora.Fluent
 {
+    using System;
+
     public class FluentRegistration
     {
-        private readonly ComponentStore store;
+        internal readonly ComponentStore store;
         internal IRegistration componentRegistration = new Registration();
 
         internal RegistrationWriter Writer
@@ -45,5 +47,16 @@ namespace Pandora.Fluent
             store.AddRegistration(componentRegistration);
             return new FluentServiceOptions<T>(this);
         }
+
+        public AutoConfiguration AutoConfigure
+        {
+            get
+            {
+                throw new NotImplementedException();
+/*                return new AutoConfiguration(this);*/
+            }
+        }
     }
+
+    
 }

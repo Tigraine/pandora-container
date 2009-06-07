@@ -31,13 +31,22 @@ namespace Pandora
         }
         public virtual IRegistration Add<T, TType>(string name) where TType : T
         {
+            var implementorType = typeof(TType);
+            if (implementorType.IsInterface) throw new RegistrationException(implementorType);
+
+            var registration = CreateRegistration(typeof (T), implementorType, name);
+            AddRegistration(registration);
+            return registration;
+        }
+
+        private IRegistration CreateRegistration(Type serviceType, Type implementor, string name)
+        {
             var registration = new Registration
             {
-                Service = typeof(T),
-                Implementor = typeof(TType),
+                Service = serviceType,
+                Implementor = implementor,
                 Name = name
             };
-            AddRegistration(registration);
             return registration;
         }
 
@@ -48,7 +57,7 @@ namespace Pandora
             registrations.Add(registration);
         }
 
-        public virtual IList<IRegistration> GetRegistrationsForService<T>() where T : class
+        public virtual IList<IRegistration> GetRegistrationsForService<T>()
         {
             return GetRegistrationsForService(typeof (T));
         }
@@ -63,14 +72,16 @@ namespace Pandora
 
         public void Register(Action<FluentRegistration> registrationClosure)
         {
-            registrationClosure(new FluentRegistration(this));
+            var registration = new FluentRegistration(this);
+            registrationClosure(registration);
         }
 
         public IRegistration AddInstance<T>(string name, T instance)
         {
-            var add = Add<T, T>(name);
-            new RegistrationWriter(add).SetInstance(instance);
-            return add;
+            var registration = CreateRegistration(typeof (T), instance.GetType(), name);
+            AddRegistration(registration);
+            new RegistrationWriter(registration).SetInstance(instance);
+            return registration;
         }
 
         public IRegistration AddInstance<T>(T instance)

@@ -59,5 +59,12 @@ namespace Pandora.Tests
             store.Add<IService, ClassWithNoDependencies>(name);
             Assert.Throws<NameAlreadyRegisteredException>(() => store.Add<IService, ClassWithNoDependencies>(name));
         }
+
+        [Fact]
+        public void CannotInsertInterfaceAsImplementor()
+        {
+            var store = new ComponentStore();
+            Assert.Throws<RegistrationException>(() => store.Add<IService, IService>());
+        }
     }
 }
