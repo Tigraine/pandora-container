@@ -45,7 +45,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FluentRegistration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Pandora.Tests\Pandora.Tests.csproj">
+      <Project>{F9719EB0-9BEA-4B4E-87CE-FC09F897F498}</Project>
+      <Name>Pandora.Tests</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Pandora\Pandora.csproj">
+      <Project>{1F4FF8BD-2E0E-4EF8-92BD-54861F7C1EC0}</Project>
+      <Name>Pandora</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
