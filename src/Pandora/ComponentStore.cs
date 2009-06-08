@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+using Pandora.Lifestyles;
+
 namespace Pandora
 {
     using System;
@@ -80,8 +82,10 @@ namespace Pandora
         public IRegistration AddInstance<T>(string name, T instance)
         {
             var registration = CreateRegistration(typeof (T), instance.GetType(), name);
+            registration.Lifestyle = new InjectedInstanceLifestyle(instance);
             AddRegistration(registration);
-            new RegistrationWriter(registration).SetInstance(instance);
+            
+            /*new RegistrationWriter(registration).SetInstance(instance);*/
             return registration;
         }
 

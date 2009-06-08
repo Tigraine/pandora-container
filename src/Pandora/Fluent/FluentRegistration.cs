@@ -26,11 +26,6 @@ namespace Pandora.Fluent
 
         private readonly IList<ICommand> commands = new List<ICommand>();
 
-        internal RegistrationWriter Writer
-        {
-            get { return new RegistrationWriter(componentRegistration); }
-        }
-
         public FluentRegistration(ComponentStore store)
         {
             this.store = store;
@@ -43,9 +38,11 @@ namespace Pandora.Fluent
 
         public FluentServiceOptions<T> Service<T>(string name)
         {
-            componentRegistration = new Registration {Name = name, Service = typeof (T)};
-            store.AddRegistration(componentRegistration);
-            return new FluentServiceOptions<T>(this);
+            var command = new NormalRegistrationCommand();
+            command.Name = name;
+            command.Service = typeof (T);
+            commands.Add(command);
+            return new FluentServiceOptions<T>(command);
         }
 
         public AutoConfiguration AutoConfigure
@@ -61,7 +58,7 @@ namespace Pandora.Fluent
         {
             var command = new GenericServiceCommand
                               {
-                                  Service = generic, 
+                                  Service = generic,
                                   Name = name
                               };
             commands.Add(command);
@@ -79,92 +76,6 @@ namespace Pandora.Fluent
             {
                 list.Execute(store);
             }
-        }
-    }
-
-    internal interface ICommand
-    {
-        void Execute(ComponentStore store);
-    }
-
-    public class GenericServiceCommand : ICommand
-    {
-        public string Name { get; set;}
-        private Type service;
-        public Type Service
-        {
-            get { return service; }
-            set
-            {
-                if (!value.IsGenericType)
-                    throw new ArgumentException(String.Format("Type {0} is not generic and thus cannot be used as a generic registry", value.FullName));
-                service = value;
-            }
-        }
-
-        private Type implementor;
-        public Type Implementor
-        {
-            get { return implementor; }
-            set
-            {
-                if (!value.IsGenericType)
-                    throw new ArgumentException(String.Format("Type {0} is not generic and thus cannot be used as a generic registry", value.FullName));
-                implementor = value;
-            }
-        }
-
-        public Type[] ForTypes { get; set; }
-
-        public void Execute(ComponentStore store)
-        {
-            foreach (var type in ForTypes)
-            {
-                var reg = new Registration()
-                              {
-                                  Name = Name,
-                                  Service = Service.MakeGenericType(new[] {type}),
-                                  Implementor = Implementor.MakeGenericType(new[] {type})
-                              };
-                store.AddRegistration(reg);
-            }
-        }
-    }
-
-    public class GenericServiceOptions
-    {
-        private readonly GenericServiceCommand command;
-
-        public GenericServiceOptions(GenericServiceCommand command)
-        {
-            this.command = command;
-        }
-
-        public GenericImplementorOptions Implementor(Type implementor)
-        {
-            command.Implementor = implementor;
-            return new GenericImplementorOptions(command);
-        }
-    }
-
-    public class GenericImplementorOptions
-    {
-        private readonly GenericServiceCommand command;
-
-        public GenericImplementorOptions(GenericServiceCommand command)
-        {
-            this.command = command;
-        }
-
-        public GenericImplementorOptions OnlyForTypes(params Type[] types)
-        {
-            command.ForTypes = types;
-            return this;
-        }
-
-        public GenericImplementorOptions ForAllTypes()
-        {
-            throw new NotImplementedException();
         }
     }
 }

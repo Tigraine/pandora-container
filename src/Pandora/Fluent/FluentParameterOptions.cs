@@ -16,22 +16,27 @@
 
 namespace Pandora.Fluent
 {
+    using System;
+
     public class FluentParameterOptions<T>
     {
-        private readonly FluentRegistration registration;
+        private readonly NormalRegistrationCommand command;
         private readonly FluentImplementorOptions<T> parentOptions;
         private readonly string parameterName;
 
-        public FluentParameterOptions(FluentRegistration registration, FluentImplementorOptions<T> parentOptions, string parameterName)
+        public FluentParameterOptions(NormalRegistrationCommand command, FluentImplementorOptions<T> parentOptions, string parameterName)
         {
-            this.registration = registration;
+            this.command = command;
             this.parentOptions = parentOptions;
             this.parameterName = parameterName;
         }
 
         public FluentImplementorOptions<T> Set(string value)
         {
-            registration.componentRegistration.Parameters[parameterName] = value;
+            if (!command.Parameters.ContainsKey(parameterName))
+                command.Parameters.Add(parameterName, value);
+            else
+                throw new ArgumentException(String.Format("Parametername {0} was already registered", parameterName));
             return parentOptions;
         }
     }

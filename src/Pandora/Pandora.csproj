@@ -61,6 +61,11 @@
     <Compile Include="Fluent\FluentRegistration.cs" />
     <Compile Include="Fluent\FluentImplementorOptions.cs" />
     <Compile Include="Fluent\FluentServiceOptions.cs" />
+    <Compile Include="Fluent\GenericImplementorOptions.cs" />
+    <Compile Include="Fluent\GenericServiceCommand.cs" />
+    <Compile Include="Fluent\GenericServiceOptions.cs" />
+    <Compile Include="Fluent\ICommand.cs" />
+    <Compile Include="Fluent\NormalRegistrationCommand.cs" />
     <Compile Include="IComponentActivator.cs" />
     <Compile Include="IComponentLookup.cs" />
     <Compile Include="IComponentStore.cs" />
@@ -75,7 +80,6 @@
     <Compile Include="Query.cs" />
     <Compile Include="Registration.cs" />
     <Compile Include="CommonServiceLocatorAdapter.cs" />
-    <Compile Include="RegistrationWriter.cs" />
     <Compile Include="Resolver.cs" />
     <Compile Include="ResolverContext.cs" />
     <Compile Include="Lifestyles\SingletonLifestyle.cs" />

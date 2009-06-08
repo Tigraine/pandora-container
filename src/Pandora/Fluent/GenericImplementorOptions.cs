@@ -16,24 +16,26 @@
 
 namespace Pandora.Fluent
 {
-    public class FluentServiceOptions<T>
+    using System;
+
+    public class GenericImplementorOptions
     {
-        private readonly NormalRegistrationCommand registration;
+        private readonly GenericServiceCommand command;
 
-        public FluentServiceOptions(NormalRegistrationCommand registration)
+        public GenericImplementorOptions(GenericServiceCommand command)
         {
-            this.registration = registration;
+            this.command = command;
         }
 
-        public FluentImplementorOptions<T> Implementor<S>() where S : T
+        public GenericImplementorOptions OnlyForTypes(params Type[] types)
         {
-            registration.Implementor = typeof(S);
-            return new FluentImplementorOptions<T>(registration);
+            command.ForTypes = types;
+            return this;
         }
 
-        public void Instance<S>(S instance) where S : T
+        public GenericImplementorOptions ForAllTypes()
         {
-            registration.SetInstance(instance);
+            throw new NotImplementedException();
         }
     }
 }

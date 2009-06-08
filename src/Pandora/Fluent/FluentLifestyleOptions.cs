@@ -20,29 +20,29 @@ namespace Pandora.Fluent
 
     public class FluentLifestyleOptions<T>
     {
-        private readonly FluentRegistration registration;
+        private readonly NormalRegistrationCommand command;
         private readonly FluentImplementorOptions<T> parentOptions;
 
-        public FluentLifestyleOptions(FluentRegistration registration, FluentImplementorOptions<T> parentOptions)
+        public FluentLifestyleOptions(NormalRegistrationCommand command, FluentImplementorOptions<T> parentOptions)
         {
-            this.registration = registration;
+            this.command = command;
             this.parentOptions = parentOptions;
         }
 
         public FluentImplementorOptions<T> Singleton()
         {
-            registration.componentRegistration.Lifestyle = new SingletonLifestyle();
+            command.Lifestyle = new SingletonLifestyle();
             return parentOptions;
         }
         public FluentImplementorOptions<T> Transient()
         {
-            registration.componentRegistration.Lifestyle = new TransientLifestyle();
+            command.Lifestyle = new TransientLifestyle();
             return parentOptions;
         }
 
         public FluentImplementorOptions<T> Custom(ILifestyle lifestyle)
         {
-            registration.componentRegistration.Lifestyle = lifestyle;
+            command.Lifestyle = lifestyle;
             return parentOptions;
         }
     }

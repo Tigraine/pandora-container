@@ -18,24 +18,24 @@ namespace Pandora.Fluent
 {
     public class FluentImplementorOptions<T>
     {
-        private readonly FluentRegistration registration;
+        private readonly NormalRegistrationCommand command;
 
-        public FluentImplementorOptions(FluentRegistration registration)
+        public FluentImplementorOptions(NormalRegistrationCommand command)
         {
-            this.registration = registration;
+            this.command = command;
         }
 
         public FluentLifestyleOptions<T> Lifestyle
         {
             get
             {
-                return new FluentLifestyleOptions<T>(registration, this);
+                return new FluentLifestyleOptions<T>(command, this);
             }
         }
 
         public FluentParameterOptions<T> Parameters(string name)
         {
-            return new FluentParameterOptions<T>(registration, this, name);
+            return new FluentParameterOptions<T>(command, this, name);
         }
     }
 }

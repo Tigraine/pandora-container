@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+using System;
+
 namespace Pandora.Tests
 {
     using System.Linq;
@@ -22,10 +24,18 @@ namespace Pandora.Tests
 
     public class FluentInterface
     {
+        private ComponentStore store;
+        private PandoraContainer container;
+
+        public FluentInterface()
+        {
+            store = new ComponentStore();
+            container = new PandoraContainer(store);
+        }
         [Fact]
         public void CanRegisterMultipleParametersInARow()
         {
-            var store = new ComponentStore();
+            store = new ComponentStore();
             store.Register(p => p.Service<IService>()
                                     .Implementor<ClassWithNoDependencies>()
                                     .Parameters("test").Set("test")
@@ -40,7 +50,6 @@ namespace Pandora.Tests
         [Fact]
         public void CanConfigureLifestyle()
         {
-            var store = new ComponentStore();
             store.Register((p) =>
                                {
                                    p.Service<IService>()
@@ -50,24 +59,21 @@ namespace Pandora.Tests
                                        .Implementor<ClassWithNoDependencies>()
                                        .Lifestyle.Singleton();
                                });
-            var container = new PandoraContainer(store);
+            
             Assert.DoesNotThrow(() => container.Resolve<IService>());
         }
 
         [Fact]
         public void CanConfigureComponentWithoutSpecifyingLifestyleAndParameters()
         {
-            var store = new ComponentStore();
             Assert.DoesNotThrow(() => store.Register((p) => p.Service<IService>()
                                                                 .Implementor<ClassWithNoDependencies>()));
-            var container = new PandoraContainer(store);
             Assert.DoesNotThrow(() => container.Resolve<IService>());
         }
 
         [Fact]
         public void CanSpecifyParametersThroughFluentInterface()
         {
-            var store = new ComponentStore();
             store.Register(p =>
                                {
                                    p.Service<ClassWithDependencyOnItsOwnService>("myService")
@@ -79,7 +85,6 @@ namespace Pandora.Tests
                                        .Implementor<ClassWithTwoDependenciesOnItsOwnService>();
                                });
 
-            var container = new PandoraContainer(store);
             var service = container.Resolve<ClassWithDependencyOnItsOwnService>();
             Assert.IsType<ClassWithNoDependencies>(service.SubService);
         }
@@ -87,7 +92,6 @@ namespace Pandora.Tests
         [Fact]
         public void CanRegisterTwoServicesWithDifferentNames()
         {
-            var store = new ComponentStore();
             Assert.DoesNotThrow(() => store.Register(p =>
                                                          {
                                                              p.Service<IService>("service1")
@@ -100,7 +104,6 @@ namespace Pandora.Tests
         [Fact]
         public void ThrowsExceptionWhenRegisteringTwoServicesWithSameName()
         {
-            var store = new ComponentStore();
             Assert.Throws<NameAlreadyRegisteredException>(() => store.Register(p =>
                                                                                    {
                                                                                        p.Service<IService>("service1")
@@ -116,7 +119,6 @@ namespace Pandora.Tests
         public void CanSpecifyCustomLifestyle()
         {
             var myLifestyle = new CustomLifestyle();
-            var store = new ComponentStore();
             store.Register(p => p.Service<IService>()
                                     .Implementor<ClassWithNoDependencies>()
                                     .Lifestyle.Custom(myLifestyle));
@@ -127,7 +129,6 @@ namespace Pandora.Tests
         [Fact]
         public void CanInjectInstanceThroughFluentConfiguration()
         {
-            var store = new ComponentStore();
             var instance = new ClassWithNoDependencies();
             store.Register(p => p.Service<IService>("test")
                                     .Instance(instance));
@@ -135,6 +136,16 @@ namespace Pandora.Tests
             //TODO: Maybe clean this up. Too much implementation detail
             var execute = store.GetRegistrationsForService(typeof(IService)).First().Lifestyle.Execute(null);
             Assert.Same(instance, execute);
+        }
+
+        [Fact]
+        public void RegisteringParameterNameTwiceThrowsArgumentException()
+        {
+            Assert.Throws<ArgumentException>(() => store.Register(p =>
+                                                                  p.Service<IService>()
+                                                                      .Implementor<ClassWithNoDependencies>()
+                                                                      .Parameters("param").Set("xxx")
+                                                                      .Parameters("param").Set("xxx")));
         }
     }
 }

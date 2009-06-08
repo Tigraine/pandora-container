@@ -14,22 +14,10 @@
  * limitations under the License.
  */
 
-namespace Pandora
+namespace Pandora.Fluent
 {
-    using Lifestyles;
-
-    public class RegistrationWriter
+    internal interface ICommand
     {
-        private readonly IRegistration registration;
-
-        public RegistrationWriter(IRegistration registration)
-        {
-            this.registration = registration;
-        }
-
-        public void SetInstance(object instance)
-        {
-            registration.Lifestyle = new InjectedInstanceLifestyle(instance);
-        }
+        void Execute(ComponentStore store);
     }
 }
