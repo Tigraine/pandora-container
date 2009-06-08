@@ -74,6 +74,7 @@ namespace Pandora
         {
             var registration = new FluentRegistration(this);
             registrationClosure(registration);
+            registration.Commit();
         }
 
         public IRegistration AddInstance<T>(string name, T instance)
