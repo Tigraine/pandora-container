@@ -32,7 +32,7 @@ namespace Pandora.Tests
             store.Register(
                 p => p.Generic(typeof (GenericClass<>))
                          .Implementor(typeof (GenericClass<>))
-                         .ForTypes(typeof (string), typeof (int)));
+                         .OnlyForTypes(typeof (string), typeof (int)));
 
             Assert.DoesNotThrow(() =>
                                     {
@@ -55,6 +55,19 @@ namespace Pandora.Tests
             Assert.Throws<ArgumentException>(() => store.Register(
                                                        p => p.Generic(typeof(GenericClass<>))
                                                        .Implementor(typeof(ClassWithNoDependencies))));
+        }
+
+        [Fact]
+        public void CanRegisterAndResolveRealGenericRequests()
+        {
+            store.Register(p => 
+                p.Generic(typeof(GenericClass<>))
+                .Implementor(typeof(GenericClass<>))
+                .ForAllTypes());
+
+            Assert.DoesNotThrow(() => {
+                var resolve = container.Resolve<GenericClass<string>>();
+            });
         }
     }
 }

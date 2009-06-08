@@ -156,10 +156,15 @@ namespace Pandora.Fluent
             this.command = command;
         }
 
-        public GenericImplementorOptions ForTypes(params Type[] types)
+        public GenericImplementorOptions OnlyForTypes(params Type[] types)
         {
             command.ForTypes = types;
             return this;
+        }
+
+        public GenericImplementorOptions ForAllTypes()
+        {
+            throw new NotImplementedException();
         }
     }
 }
