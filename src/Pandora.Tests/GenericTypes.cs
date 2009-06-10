@@ -46,28 +46,56 @@ namespace Pandora.Tests
         public void RegisterNonGenericClassAsServiceThrowsArgumentException()
         {
             Assert.Throws<ArgumentException>(() => store.Register(
-                                                       p => p.Generic(typeof(IService))));
+                                                       p => p.Generic(typeof (IService))));
         }
 
         [Fact]
         public void RegisterNonGenericClassAsImplementorThrowsArgumentException()
         {
             Assert.Throws<ArgumentException>(() => store.Register(
-                                                       p => p.Generic(typeof(GenericClass<>))
-                                                       .Implementor(typeof(ClassWithNoDependencies))));
+                                                       p => p.Generic(typeof (GenericClass<>))
+                                                                .Implementor(typeof (ClassWithNoDependencies))));
         }
 
-        [Fact(Skip = "Not implemented yet")]
+        [Fact]
         public void CanRegisterAndResolveRealGenericRequests()
         {
-            store.Register(p => 
-                p.Generic(typeof(GenericClass<>))
-                .Implementor(typeof(GenericClass<>))
-                .ForAllTypes());
+            store.Register(p =>
+                           p.Generic(typeof (GenericClass<>))
+                               .Implementor(typeof (GenericClass<>))
+                               .ForAllTypes());
 
-            Assert.DoesNotThrow(() => {
-                var resolve = container.Resolve<GenericClass<string>>();
-            });
+            Assert.DoesNotThrow(() => { var resolve = container.Resolve<GenericClass<string>>(); });
+        }
+
+        [Fact]
+        public void CanResolveRealGenericAsSubdependency()
+        {
+            store.Register(p =>
+                               {
+                                   p.Service<IService>()
+                                       .Implementor<ClassDependingOnGenericClass>();
+                                   p.Generic(typeof (GenericClass<>))
+                                       .Implementor(typeof (GenericClass<>))
+                                       .ForAllTypes();
+                               });
+            Assert.DoesNotThrow(() => container.Resolve<IService>());
+        }
+
+        [Fact]
+        public void CanResolveDependenciesOfGenericType()
+        {
+            store.Register(p =>
+                               {
+                                   p.Generic(typeof (GenericWithDependency<>))
+                                       .Implementor(typeof (GenericWithDependency<>))
+                                       .ForAllTypes();
+                                   p.Service<string>()
+                                       .Instance("Hello World");
+                               });
+
+            var result = container.Resolve<GenericWithDependency<string>>();
+            Assert.Equal("Hello World", result.Dependency);
         }
     }
 }
