@@ -35,7 +35,8 @@ namespace Pandora.Fluent
 
         public GenericImplementorOptions ForAllTypes()
         {
-            throw new NotImplementedException();
+            command.ForTypes = null;
+            return this;
         }
     }
 }

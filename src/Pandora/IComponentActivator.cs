@@ -16,9 +16,11 @@
 
 namespace Pandora
 {
+    using System;
     using Model;
     public interface IComponentActivator
     {
         object CreateInstance(CreationContext context);
+        object CreateGenericInstance(CreationContext context, Type targetType);
     }
 }

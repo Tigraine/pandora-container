@@ -27,5 +27,11 @@ namespace Pandora
         string Name { get; set; }
         IDictionary<string, string> Parameters { get; set; }
         ILifestyle Lifestyle { get; set; }
+        ISatisfyStrategy SatisfactionStrategy { get; set; }
+    }
+
+    public interface ISatisfyStrategy
+    {
+        bool SatisfiesRequest(Type type);
     }
 }

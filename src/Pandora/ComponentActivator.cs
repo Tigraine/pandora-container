@@ -25,5 +25,11 @@ namespace Pandora
         {
             return Activator.CreateInstance(context.ConcreteType, context.Arguments);
         }
+
+        public object CreateGenericInstance(CreationContext context, Type targetType)
+        {
+            var arguments = targetType.GetGenericArguments();
+            return Activator.CreateInstance(context.ConcreteType.MakeGenericType(arguments), context.Arguments);
+        }
     }
 }

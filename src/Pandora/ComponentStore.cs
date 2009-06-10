@@ -66,7 +66,7 @@ namespace Pandora
 
         public virtual IList<IRegistration> GetRegistrationsForService(Type type)
         {
-            var service = registrations.Where(p => p.Service == type).ToList();
+            var service = registrations.Where(p => p.SatisfactionStrategy.SatisfiesRequest(type)).ToList();
             if (service.Count == 0)
                 throw new KeyNotFoundException(String.Format("No Component implementing {0} could be found", type.FullName));
             return service;

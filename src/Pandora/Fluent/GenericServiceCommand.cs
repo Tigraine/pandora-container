@@ -50,14 +50,28 @@ namespace Pandora.Fluent
 
         public void Execute(ComponentStore store)
         {
-            foreach (var type in ForTypes)
+            if (ForTypes != null)
             {
-                var reg = new Registration()
+                foreach (var type in ForTypes)
+                {
+                    var reg = new Registration()
+                                  {
+                                      Name = Name,
+                                      Service = Service.MakeGenericType(new[] {type}),
+                                      Implementor = Implementor.MakeGenericType(new[] {type})
+                                  };
+                    store.AddRegistration(reg);
+                }
+            }
+            else
+            {
+                var reg = new Registration
                               {
                                   Name = Name,
-                                  Service = Service.MakeGenericType(new[] {type}),
-                                  Implementor = Implementor.MakeGenericType(new[] {type})
+                                  Service = Service,
+                                  Implementor = Implementor
                               };
+                reg.SatisfactionStrategy = new GenericSatisfactionStrategy(reg);
                 store.AddRegistration(reg);
             }
         }
