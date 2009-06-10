@@ -75,6 +75,7 @@
     <Compile Include="SingletonLifestyleBehavior.cs" />
     <Compile Include="Testclasses\ClassDependingOnAString.cs" />
     <Compile Include="Testclasses\ClassDependingOnClassWithOneDependency.cs" />
+    <Compile Include="Testclasses\ClassDependingOnGenericClass.cs" />
     <Compile Include="Testclasses\ClassWithDependencyOnItsOwnService.cs" />
     <Compile Include="Testclasses\ClassWithMultipleConstructors.cs" />
     <Compile Include="Testclasses\ClassWithNoDependencies.cs" />
@@ -83,6 +84,7 @@
     <Compile Include="Testclasses\ClassWithTwoDependenciesOnItsOwnService.cs" />
     <Compile Include="Testclasses\CustomLifestyle.cs" />
     <Compile Include="Testclasses\GenericClass.cs" />
+    <Compile Include="Testclasses\GenericWithDependency.cs" />
     <Compile Include="Testclasses\IService.cs" />
     <Compile Include="Testclasses\IService2.cs" />
     <Compile Include="Testclasses\IService3.cs" />
