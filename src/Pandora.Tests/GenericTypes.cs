@@ -57,7 +57,7 @@ namespace Pandora.Tests
                                                                 .Implementor(typeof (ClassWithNoDependencies))));
         }
 
-        [Fact]
+        [Fact(Skip="Not implemented yet")]
         public void CanRegisterAndResolveRealGenericRequests()
         {
             store.Register(p =>
@@ -68,7 +68,7 @@ namespace Pandora.Tests
             Assert.DoesNotThrow(() => { var resolve = container.Resolve<GenericClass<string>>(); });
         }
 
-        [Fact]
+        [Fact(Skip = "Not implemented yet")]
         public void CanResolveRealGenericAsSubdependency()
         {
             store.Register(p =>
@@ -82,7 +82,7 @@ namespace Pandora.Tests
             Assert.DoesNotThrow(() => container.Resolve<IService>());
         }
 
-        [Fact]
+        [Fact(Skip = "Not implemented yet")]
         public void CanResolveDependenciesOfGenericType()
         {
             store.Register(p =>
