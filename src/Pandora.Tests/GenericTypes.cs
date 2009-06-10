@@ -57,7 +57,7 @@ namespace Pandora.Tests
                                                        .Implementor(typeof(ClassWithNoDependencies))));
         }
 
-        [Fact]
+        [Fact(Skip = "Not implemented yet")]
         public void CanRegisterAndResolveRealGenericRequests()
         {
             store.Register(p => 
@@ -68,30 +68,6 @@ namespace Pandora.Tests
             Assert.DoesNotThrow(() => {
                 var resolve = container.Resolve<GenericClass<string>>();
             });
-        }
-
-        [Fact]
-        public void GenericTests()
-        {
-            var type = typeof(GenericClass<>);
-            var type2 = typeof (GenericClass<string>);
-            var type3 = typeof (string);
-
-            PrintTypeInfo(type);
-            PrintTypeInfo(type2);
-            PrintTypeInfo(type3);
-        }
-        private void PrintTypeInfo(Type type)
-        {
-            Console.WriteLine("Fullname: {0}", type.FullName);
-            Console.WriteLine("IsGenericType: {0}", type.IsGenericType);
-            Console.WriteLine("IsGenericTypeDefinition: {0}", type.IsGenericTypeDefinition);
-
-            foreach (var t in type.GetGenericArguments())
-            {
-                Console.WriteLine(t.Name);
-            }
-            Console.WriteLine("----");
         }
     }
 }

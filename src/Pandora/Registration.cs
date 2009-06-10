@@ -20,7 +20,7 @@ namespace Pandora
     using System.Collections.Generic;
     using Lifestyles;
 
-    public class Registration : IRegistration, ISatisfyStrategy
+    public class Registration : IRegistration
     {
         public Guid Guid { get; private set; }
         public Type Service { get; set; }
@@ -33,14 +33,6 @@ namespace Pandora
             set { lifestyle = value; }
         }
 
-        private ISatisfyStrategy satisfactionStrategy;
-
-        public ISatisfyStrategy SatisfactionStrategy
-        {
-            get { return satisfactionStrategy; }
-            set { satisfactionStrategy = value; }
-        }
-
         private IDictionary<string, string> parameters = new Dictionary<string, string>();
         public IDictionary<string, string> Parameters
         {
@@ -51,7 +43,6 @@ namespace Pandora
         public Registration()
         {
             Guid = Guid.NewGuid();
-            satisfactionStrategy = this;
         }
 
         private bool Equals(Registration other)
@@ -73,31 +64,5 @@ namespace Pandora
         {
             return Guid.GetHashCode();
         }
-
-        public bool SatisfiesRequest(Type type)
-        {
-            return (type == Service);
-        }
-    }
-
-    public class GenericSatisfactionStrategy : ISatisfyStrategy
-    {
-        private readonly IRegistration registration;
-
-        public GenericSatisfactionStrategy(IRegistration registration)
-        {
-            this.registration = registration;
-        }
-
-        public bool SatisfiesRequest(Type type)
-        {
-            if (type.IsGenericType && !type.IsGenericTypeDefinition)
-            {
-                var definition = type.GetGenericTypeDefinition();
-                return definition.Equals(registration.Service);
-            }
-            return false;
-        }
-
     }
 }

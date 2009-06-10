@@ -93,11 +93,6 @@ namespace Pandora
             var retVal = registration.Lifestyle.Execute(() =>
                                                {
                                                    var creationContext = GenerateCreationContext(registration, localContext);
-                                                   if (creationContext.ConcreteType.IsGenericTypeDefinition)
-                                                   {
-                                                       return activator.CreateGenericInstance(creationContext,
-                                                                                       query.ServiceType);
-                                                   }
                                                    return activator.CreateInstance(creationContext);
                                                });
             return retVal;
