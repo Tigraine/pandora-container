@@ -40,7 +40,9 @@ namespace Pandora.Tests
             var store = new ComponentStore();
             var container = new PandoraContainer(store);
             //To make it lookup something
-            container.AddComponent<ClassWithNoDependencies, ClassWithNoDependencies>();
+            container.Register(p => 
+                p.Service<ClassWithNoDependencies>()
+                    .Implementor<ClassWithNoDependencies>());
 
             Assert.Throws<ServiceNotFoundException>(() => container.Resolve<ClassWithNoDependencies>("test"));
         }

@@ -18,20 +18,7 @@ namespace Pandora
 {
     using System;
     using System.Collections.Generic;
-
-    public interface IPandoraContainer
-    {
-        void AddComponent<T, TImplementor>()
-            where T : class
-            where TImplementor : T;
-
-        T Resolve<T>();
-        object Resolve(Type type);
-        T Resolve<T>(string name);
-        object Resolve(Type type, string name);
-        IEnumerable<T> ResolveAll<T>();
-        IEnumerable<object> ResolveAll(Type serviceType);
-    }
+    using Fluent;
 
     public class PandoraContainer : IPandoraContainer
     {
@@ -47,15 +34,7 @@ namespace Pandora
             var activator = new ComponentActivator();
             resolver = new Resolver(activator, lookupService);
         }
-
-        public virtual void AddComponent<T, TImplementor>()
-            where T : class
-            where TImplementor : T
-        {
-            componentStore.Add<T, TImplementor>();
-        }
-
-        
+       
         public virtual T Resolve<T>()
         {
             return (T)Resolve(typeof (T));
@@ -100,6 +79,13 @@ namespace Pandora
                 if (resolve != null)
                     yield return resolve;
             }
+        }
+
+        public void Register(Action<FluentRegistration> registrationClosure)
+        {
+            var registration = new FluentRegistration(componentStore);
+            registrationClosure(registration);
+            registration.Commit();
         }
     }
 }

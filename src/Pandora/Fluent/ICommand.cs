@@ -18,6 +18,6 @@ namespace Pandora.Fluent
 {
     internal interface ICommand
     {
-        void Execute(ComponentStore store);
+        void Execute(IComponentStore store);
     }
 }

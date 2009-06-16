@@ -52,7 +52,7 @@ namespace Pandora
             return registration;
         }
 
-        internal void AddRegistration(IRegistration registration)
+        public void AddRegistration(IRegistration registration)
         {
             if (registrations.Any(p => p.Name == registration.Name && p.Name != null)) 
                 throw new NameAlreadyRegisteredException(registration.Name);

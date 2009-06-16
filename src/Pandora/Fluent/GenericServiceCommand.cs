@@ -48,11 +48,11 @@ namespace Pandora.Fluent
 
         public Type[] ForTypes { get; set; }
 
-        public void Execute(ComponentStore store)
+        public void Execute(IComponentStore store)
         {
             foreach (var type in ForTypes)
             {
-                var reg = new Registration()
+                var reg = new Registration
                               {
                                   Name = Name,
                                   Service = Service.MakeGenericType(new[] {type}),

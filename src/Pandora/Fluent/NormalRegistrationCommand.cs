@@ -29,7 +29,7 @@ namespace Pandora.Fluent
         public ILifestyle Lifestyle { get; set; }
         public IDictionary<string, string> Parameters = new Dictionary<string, string>();
 
-        public void Execute(ComponentStore store)
+        public void Execute(IComponentStore store)
         {
             var reg = new Registration
                           {

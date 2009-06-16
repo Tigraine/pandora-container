@@ -18,6 +18,7 @@ namespace Pandora.Tests
 {
     using System;
     using System.Collections.Generic;
+    using Fluent;
     using Rhino.Mocks.Exceptions;
     public class ContainerMock : IPandoraContainer
     {
@@ -83,6 +84,11 @@ namespace Pandora.Tests
         }
 
         public IEnumerable<object> ResolveAll(Type serviceType)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Register(Action<FluentRegistration> registrationClosure)
         {
             throw new NotImplementedException();
         }

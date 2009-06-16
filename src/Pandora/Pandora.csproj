@@ -70,6 +70,7 @@
     <Compile Include="IComponentLookup.cs" />
     <Compile Include="IComponentStore.cs" />
     <Compile Include="ILifestyle.cs" />
+    <Compile Include="IPandoraContainer.cs" />
     <Compile Include="IRegistration.cs" />
     <Compile Include="Lifestyles\ComponentLifestyles.cs" />
     <Compile Include="Lifestyles\InjectedInstanceLifestyle.cs" />

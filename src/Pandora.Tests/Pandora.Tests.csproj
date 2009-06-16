@@ -68,6 +68,7 @@
     <Compile Include="GenericTypes.cs" />
     <Compile Include="InstanceInjection.cs" />
     <Compile Include="NamedLookup.cs" />
+    <Compile Include="PandoraSurfaceInterface.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RegistrationFixture.cs" />
     <Compile Include="ContainerFixture.cs" />

@@ -21,12 +21,11 @@ namespace Pandora.Fluent
 
     public class FluentRegistration
     {
-        internal readonly ComponentStore store;
-        internal IRegistration componentRegistration = new Registration();
+        internal readonly IComponentStore store;
 
         private readonly IList<ICommand> commands = new List<ICommand>();
 
-        public FluentRegistration(ComponentStore store)
+        public FluentRegistration(IComponentStore store)
         {
             this.store = store;
         }

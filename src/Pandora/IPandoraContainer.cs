@@ -18,20 +18,17 @@ namespace Pandora
 {
     using System;
     using System.Collections.Generic;
+    using Fluent;
 
-    public interface IComponentStore
+    public interface IPandoraContainer
     {
-        IRegistration Add<T, TType>()
-            where TType : T;
+        T Resolve<T>();
+        object Resolve(Type type);
+        T Resolve<T>(string name);
+        object Resolve(Type type, string name);
+        IEnumerable<T> ResolveAll<T>();
+        IEnumerable<object> ResolveAll(Type serviceType);
 
-        IRegistration Add<T, TType>(string name)
-            where TType : T;
-
-        IList<IRegistration> GetRegistrationsForService<T>();
-
-        IList<IRegistration> GetRegistrationsForService(Type type);
-        IRegistration AddInstance<T>(string name, T instance);
-        IRegistration AddInstance<T>(T instance);
-        void AddRegistration(IRegistration registration);
+        void Register(Action<FluentRegistration> registrationClosure);
     }
 }
