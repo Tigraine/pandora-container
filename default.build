@@ -4,7 +4,7 @@
   default="test">
 
   <property name="debug" value="true" />
-  <property name="buildNumber" value="0.0.2.0" />
+  <property name="buildNumber" value="0.1.0.0" />
 
   <target name="clean" description="remove build artifacts">
     <delete dir="build" if="${directory::exists('build')}" />
@@ -27,8 +27,8 @@
         <attribute type="AssemblyCopyrightAttribute" value="Copyright © Daniel Hölbling 2009" />
       </attributes>
     </asminfo>
+    <copy file="license.txt" tofile="build\license.txt" />
     
-    <copy file="lib\csl\Microsoft.Practices.ServiceLocation.dll" tofile="build\Microsoft.Practices.ServiceLocation.dll" />
     <csc target="library" output="build\${project::get-name()}.dll" debug="${debug}">
       <sources>
         <include name="src\Pandora\**\*.cs" />
@@ -60,6 +60,7 @@
   <target name="test" depends="test.compile" description="Runs Unit Tests">
     <copy file="lib\xunit\xunit.dll" tofile="build\xunit.dll" />
     <copy file="lib\rhino-mocks\Rhino.Mocks.dll" tofile="build\Rhino.Mocks.dll" />
+    <copy file="lib\csl\Microsoft.Practices.ServiceLocation.dll" tofile="build\Microsoft.Practices.ServiceLocation.dll" />
     <exec basedir="lib\xunit"
               workingdir="build"
               program="xunit.console.exe"
