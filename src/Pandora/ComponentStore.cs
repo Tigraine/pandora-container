@@ -72,24 +72,22 @@ namespace Pandora
             return service;
         }
 
-        public void Register(Action<FluentRegistration> registrationClosure)
+        public virtual void Register(Action<FluentRegistration> registrationClosure)
         {
             var registration = new FluentRegistration(this);
             registrationClosure(registration);
             registration.Commit();
         }
 
-        public IRegistration AddInstance<T>(string name, T instance)
+        public virtual IRegistration AddInstance<T>(string name, T instance)
         {
             var registration = CreateRegistration(typeof (T), instance.GetType(), name);
             registration.Lifestyle = new InjectedInstanceLifestyle(instance);
             AddRegistration(registration);
-            
-            /*new RegistrationWriter(registration).SetInstance(instance);*/
             return registration;
         }
 
-        public IRegistration AddInstance<T>(T instance)
+        public virtual IRegistration AddInstance<T>(T instance)
         {
             return AddInstance(null, instance);
         }

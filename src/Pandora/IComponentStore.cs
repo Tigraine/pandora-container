@@ -18,6 +18,7 @@ namespace Pandora
 {
     using System;
     using System.Collections.Generic;
+    using Fluent;
 
     public interface IComponentStore
     {
@@ -33,5 +34,6 @@ namespace Pandora
         IRegistration AddInstance<T>(string name, T instance);
         IRegistration AddInstance<T>(T instance);
         void AddRegistration(IRegistration registration);
+        void Register(Action<FluentRegistration> registrationClosure);
     }
 }

@@ -83,9 +83,7 @@ namespace Pandora
 
         public void Register(Action<FluentRegistration> registrationClosure)
         {
-            var registration = new FluentRegistration(componentStore);
-            registrationClosure(registration);
-            registration.Commit();
+            componentStore.Register(registrationClosure);
         }
     }
 }
