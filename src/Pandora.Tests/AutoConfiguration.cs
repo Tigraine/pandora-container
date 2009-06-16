@@ -1,11 +1,11 @@
-namespace Pandora.Tests
+/*namespace Pandora.Tests
 {
     using AutoConfigTestclasses;
     using Xunit;
 
     public class AutoConfigurationBehavior
     {
-        [Fact(Skip = "Needs more thinking")]
+        [Fact(Skip = "No clear definition of behavior yet")]
         public void ShouldTakeAllConcreteClassesFromAssemblyAndCreateRegistratiosn()
         {
             var store = new ComponentStore();
@@ -14,4 +14,4 @@ namespace Pandora.Tests
             Assert.Equal(1, store.GetRegistrationsForService<SomeClass>().Count);
         }
     }
-}
+}*/

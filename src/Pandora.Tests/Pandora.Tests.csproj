@@ -93,10 +93,6 @@
     <Compile Include="TransientLifestyleBehavior.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Pandora.AutoConfigTestclasses\Pandora.AutoConfigTestclasses.csproj">
-      <Project>{0692661F-3546-4BE3-B17F-73C47E193BCA}</Project>
-      <Name>Pandora.AutoConfigTestclasses</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Pandora\Pandora.csproj">
       <Project>{1F4FF8BD-2E0E-4EF8-92BD-54861F7C1EC0}</Project>
       <Name>Pandora</Name>
