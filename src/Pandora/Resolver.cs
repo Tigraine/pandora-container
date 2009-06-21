@@ -76,7 +76,7 @@ namespace Pandora
                     }
                     catch (ServiceNotFoundException exception)
                     {
-                        missingDependencies.Add(new DependencyMissingException(exception.Message));
+                        missingDependencies.Add(new DependencyMissingException(exception.Message, registration.Service.Name));
                     }
                 }
                 if (resolvedParameters.Count == parameters.Length)

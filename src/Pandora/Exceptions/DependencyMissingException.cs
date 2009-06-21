@@ -19,8 +19,8 @@ namespace Pandora
 
     public class DependencyMissingException : ApplicationException
     {
-        public DependencyMissingException(string name)
-            : base (String.Format("Service could not be created because one of it's dependencies are missing:{0}{1}", Environment.NewLine, name))
+        public DependencyMissingException(string name, string typeName)
+            : base (String.Format("Type {2} could not be created because one of it's dependencies is missing:{0}{1}", Environment.NewLine, name, typeName))
         {
             
         }
