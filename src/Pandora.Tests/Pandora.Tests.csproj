@@ -62,6 +62,7 @@
     <Compile Include="CommonServiceLocatorAdapter.cs" />
     <Compile Include="ComponentActivation.cs" />
     <Compile Include="ComponentStoreFixture.cs" />
+    <Compile Include="ConcreteClassInstantiation.cs" />
     <Compile Include="ContainerMock.cs" />
     <Compile Include="ExplicitDependencies.cs" />
     <Compile Include="FluentInterface.cs" />

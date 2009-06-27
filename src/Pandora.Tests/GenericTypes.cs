@@ -28,7 +28,6 @@ namespace Pandora.Tests
         [Fact]
         public void CanAutoResolveGenericTypes()
         {
-
             store.Register(
                 p => p.Generic(typeof (GenericClass<>))
                          .Implementor(typeof (GenericClass<>))
@@ -39,7 +38,8 @@ namespace Pandora.Tests
                                         container.Resolve<GenericClass<string>>();
                                         container.Resolve<GenericClass<int>>();
                                     });
-            Assert.Throws<ServiceNotFoundException>(() => container.Resolve<GenericClass<long>>());
+            //Since ConcreteClassInstantiation is active this can't be tested
+            //Assert.Throws<ServiceNotFoundException>(() => container.Resolve<GenericClass<long>>());
         }
 
         [Fact]

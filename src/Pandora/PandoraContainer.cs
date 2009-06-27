@@ -24,13 +24,13 @@ namespace Pandora
     {
         private readonly IComponentStore componentStore;
         private readonly Resolver resolver;
-        private readonly LookupService lookupService;
+        private readonly IComponentLookup lookupService;
 
 
         public PandoraContainer(IComponentStore componentStore)
         {
             this.componentStore = componentStore;
-            lookupService = new LookupService(componentStore);
+            lookupService = new ConcreteClassInstantiationLookupServiceDecorator(new LookupService(componentStore));
             var activator = new ComponentActivator();
             resolver = new Resolver(activator, lookupService);
         }

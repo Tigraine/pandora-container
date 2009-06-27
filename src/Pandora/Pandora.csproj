@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="ComponentStore.cs" />
     <Compile Include="ComponentActivator.cs" />
+    <Compile Include="ConcreteClassInstantiationLookupServiceDecorator.cs" />
     <Compile Include="Exceptions\DependencyMissingException.cs" />
     <Compile Include="Exceptions\NameAlreadyRegisteredException.cs" />
     <Compile Include="Exceptions\RegistrationException.cs" />
