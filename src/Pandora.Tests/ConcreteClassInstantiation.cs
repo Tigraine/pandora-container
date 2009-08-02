@@ -40,16 +40,20 @@ namespace Pandora.Tests
 
             Assert.DoesNotThrow(() =>
                                     {
-                                        var dependency = container.Resolve<GenericWithDependency<ClassWithNoDependencies>>();
+                                        var dependency =
+                                            container.Resolve<GenericWithDependency<ClassWithNoDependencies>>();
                                         Assert.IsType<ClassWithNoDependencies>(dependency.Dependency);
                                     });
         }
 
-        [Fact(Skip = "Need a better way to put this")]
+        [Fact]
         public void ConcreteClassInstantiationCanBeTurnedOff()
         {
-            var container = new PandoraContainer(new ComponentStore());
-            //container.Register(p => p.Configuration.ConcreteClassInstantiation = false);
+            var behaviorConfiguration = new BehaviorConfiguration
+                                            {
+                                                EnableImplicitTypeInstantiation = false
+                                            };
+            var container = new PandoraContainer(behaviorConfiguration);
             Assert.Throws<ServiceNotFoundException>(() => container.Resolve<ClassWithNoDependencies>());
         }
 
@@ -62,6 +66,21 @@ namespace Pandora.Tests
             var c2 = container.Resolve<ClassWithNoDependencies>();
 
             Assert.Same(c1, c2);
+        }
+
+        [Fact]
+        public void ImplicitlyInstantiatedConcreteClassLifestyleCanBeConfigured()
+        {
+            var configuration = new BehaviorConfiguration
+                                    {
+                                        ImplicitTypeLifestyle = BehaviorConfiguration.Lifestyle.Transient
+                                    };
+            var container = new PandoraContainer(configuration);
+
+            var c1 = container.Resolve<ClassWithNoDependencies>();
+            var c2 = container.Resolve<ClassWithNoDependencies>();
+
+            Assert.NotSame(c1, c2);
         }
     }
 }

@@ -22,11 +22,13 @@ namespace Pandora
     public class ConcreteClassInstantiationLookupServiceDecorator : IComponentLookup
     {
         private readonly IComponentLookup underlying;
+        private readonly ILifestyle lifestyle;
         private readonly IDictionary<Type, IRegistration> createdRegistrations = new Dictionary<Type, IRegistration>();
 
-        public ConcreteClassInstantiationLookupServiceDecorator(IComponentLookup underlying)
+        public ConcreteClassInstantiationLookupServiceDecorator(IComponentLookup underlying, ILifestyle lifestyle)
         {
             this.underlying = underlying;
+            this.lifestyle = lifestyle;
         }
 
         public IRegistration LookupType(Query targetType, ResolverContext context)
@@ -46,7 +48,8 @@ namespace Pandora
                     var registration = new Registration
                                            {
                                                Service = targetType.ServiceType,
-                                               Implementor = targetType.ServiceType
+                                               Implementor = targetType.ServiceType,
+                                               Lifestyle = lifestyle
                                            };
                     createdRegistrations.Add(type, registration);
                     return registration;

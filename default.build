@@ -4,7 +4,7 @@
   default="test">
 
   <property name="debug" value="true" />
-  <property name="buildNumber" value="0.1.0.1" />
+  <property name="buildNumber" value="0.1.0.2" />
 
   <target name="clean" description="remove build artifacts">
     <delete dir="build" if="${directory::exists('build')}" />
