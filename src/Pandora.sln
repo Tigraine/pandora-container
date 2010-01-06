@@ -1,15 +1,15 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{30B41D49-8E9F-48FC-94CA-A3E94A41EFD7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Testdata", "Testdata", "{9A7ECE87-8B9E-4F42-A03F-E5BD3BA24A5C}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pandora", "Pandora\Pandora.csproj", "{1F4FF8BD-2E0E-4EF8-92BD-54861F7C1EC0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pandora.Tests", "Pandora.Tests\Pandora.Tests.csproj", "{F9719EB0-9BEA-4B4E-87CE-FC09F897F498}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{30B41D49-8E9F-48FC-94CA-A3E94A41EFD7}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pandora.Examples", "Pandora.Examples\Pandora.Examples.csproj", "{4F277D7B-13D2-41C7-A501-1E8C11B3CF70}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Testdata", "Testdata", "{9A7ECE87-8B9E-4F42-A03F-E5BD3BA24A5C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pandora.AutoConfigTestclasses", "Pandora.AutoConfigTestclasses\Pandora.AutoConfigTestclasses.csproj", "{0692661F-3546-4BE3-B17F-73C47E193BCA}"
 EndProject
