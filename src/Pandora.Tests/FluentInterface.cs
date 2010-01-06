@@ -147,5 +147,14 @@ namespace Pandora.Tests
                                                                       .Parameters("param").Set("xxx")
                                                                       .Parameters("param").Set("xxx")));
         }
+
+        [Fact]
+        public void CanRegisterImplementorAsTypeInsteadOfGenericArgument()
+        {
+            store.Register(p => p.Service<IService>()
+                .Implementor(typeof(ClassWithNoDependencies)));
+            var execute = store.GetRegistrationsForService<IService>().First();
+            Assert.Equal(typeof(ClassWithNoDependencies), execute.Implementor);
+        }
     }
 }

@@ -16,6 +16,8 @@
 
 namespace Pandora.Fluent
 {
+    using System;
+
     public class FluentServiceOptions<T>
     {
         private readonly NormalRegistrationCommand registration;
@@ -27,7 +29,12 @@ namespace Pandora.Fluent
 
         public FluentImplementorOptions<T> Implementor<S>() where S : T
         {
-            registration.Implementor = typeof(S);
+            return Implementor(typeof (S));
+        }
+
+        public FluentImplementorOptions<T> Implementor(Type implementorType)
+        {
+            registration.Implementor = implementorType;
             return new FluentImplementorOptions<T>(registration);
         }
 
