@@ -43,16 +43,19 @@ namespace Pandora
                 Type type = targetType.ServiceType;
                 if (!type.IsInterface && !type.IsAbstract && targetType.Name == null)
                 {
-                    if (createdRegistrations.ContainsKey(type))
-                        return createdRegistrations[type];
-                    var registration = new Registration
-                                           {
-                                               Service = targetType.ServiceType,
-                                               Implementor = targetType.ServiceType,
-                                               Lifestyle = lifestyle
-                                           };
-                    createdRegistrations.Add(type, registration);
-                    return registration;
+                    lock(createdRegistrations)
+                    {
+                        if (createdRegistrations.ContainsKey(type))
+                            return createdRegistrations[type];
+                        var registration = new Registration
+                                               {
+                                                   Service = targetType.ServiceType,
+                                                   Implementor = targetType.ServiceType,
+                                                   Lifestyle = lifestyle
+                                               };
+                        createdRegistrations.Add(type, registration);
+                        return registration;
+                    }
                 }
                 throw;
             }
