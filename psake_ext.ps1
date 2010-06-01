@@ -32,12 +32,14 @@ param(
 	[string]$product, 
 	[string]$copyright, 
 	[string]$version,
-	[string]$file = $(throw "file is a required parameter.")
+	[string]$file = $(throw "file is a required parameter."),
+	[bool]$partial = $True
 )
   $commit = Get-Git-Commit
   $asmInfo = "using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Security;
 
 [assembly: ComVisibleAttribute(false)]
 [assembly: AssemblyTitleAttribute(""$title"")]
@@ -50,6 +52,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyFileVersionAttribute(""$version"")]
 [assembly: AssemblyDelaySignAttribute(false)]
 "
+	if($partial) {
+        $asmInfo = $asmInfo + "[assembly: AllowPartiallyTrustedCallers]"
+    }
 
 	$dir = [System.IO.Path]::GetDirectoryName($file)
 	if ([System.IO.Directory]::Exists($dir) -eq $false)
