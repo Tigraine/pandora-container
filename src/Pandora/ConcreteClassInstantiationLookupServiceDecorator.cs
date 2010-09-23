@@ -33,32 +33,30 @@ namespace Pandora
 
         public IRegistration LookupType(Query targetType, ResolverContext context)
         {
-            try 
+            IRegistration registration = underlying.LookupType(targetType, context);
+            if (registration != null)
             {
-                IRegistration registration = underlying.LookupType(targetType, context);
                 return registration;
             }
-            catch (ServiceNotFoundException)
+
+            Type type = targetType.ServiceType;
+            if (!type.IsInterface && !type.IsAbstract && targetType.Name == null)
             {
-                Type type = targetType.ServiceType;
-                if (!type.IsInterface && !type.IsAbstract && targetType.Name == null)
+                lock (createdRegistrations)
                 {
-                    lock(createdRegistrations)
-                    {
-                        if (createdRegistrations.ContainsKey(type))
-                            return createdRegistrations[type];
-                        var registration = new Registration
-                                               {
-                                                   Service = targetType.ServiceType,
-                                                   Implementor = targetType.ServiceType,
-                                                   Lifestyle = lifestyle
-                                               };
-                        createdRegistrations.Add(type, registration);
-                        return registration;
-                    }
+                    if (createdRegistrations.ContainsKey(type))
+                        return createdRegistrations[type];
+                    var reg = new Registration
+                                  {
+                                      Service = targetType.ServiceType,
+                                      Implementor = targetType.ServiceType,
+                                      Lifestyle = lifestyle
+                                  };
+                    createdRegistrations.Add(type, reg);
+                    return reg;
                 }
-                throw;
             }
+            return null;
         }
     }
 }

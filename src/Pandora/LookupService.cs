@@ -34,30 +34,25 @@ namespace Pandora
             {
                 if (!parents.Contains(candidate)) return candidate;
             }
-            throw new KeyNotFoundException();
+            return null;
         }
 
         public virtual IRegistration LookupType(Query query, ResolverContext context)
         {
             IList<IRegistration> localParents = new List<IRegistration>(context.UsedRegistrations);
-            try
+            var registrations = componentStore.GetRegistrationsForService(query.ServiceType);
+            if (query.Name != null)
             {
-                var registrations = componentStore.GetRegistrationsForService(query.ServiceType);
-                if (query.Name != null)
-                {
-                    var @default = registrations.SingleOrDefault(p => p.Name == query.Name);
-                    if (@default == null)
-                        throw new ServiceNotFoundException(query.ServiceType, query.Name);
-                    return @default;
-                }
-                var registration = SkipParents(registrations, localParents);
-                context.ConsumeRegistration(registration);
-                return registration;
+                var @default = registrations.SingleOrDefault(p => p.Name == query.Name);
+                if (@default == null)
+                    throw new ServiceNotFoundException(query.ServiceType, query.Name);
+                return @default;
             }
-            catch (KeyNotFoundException)
-            {
-                throw new ServiceNotFoundException(query.ServiceType);
-            }
+            var registration = SkipParents(registrations, localParents);
+            if (registration == null)
+                return null;
+            context.ConsumeRegistration(registration);
+            return registration;
         }
     }
 }

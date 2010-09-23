@@ -34,7 +34,10 @@ namespace Pandora
 
         private IRegistration FindSuitableImplementor(Query query, ResolverContext context)
         {
-            return componentLookup.LookupType(query, context);
+            var suitableImplementor = componentLookup.LookupType(query, context);
+            if (suitableImplementor == null)
+                throw new ServiceNotFoundException(query.ServiceType);
+            return suitableImplementor;
         }
 
         private CreationContext CreateReturnContext(Type type, object[] parameters)

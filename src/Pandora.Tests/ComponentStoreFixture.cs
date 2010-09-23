@@ -44,11 +44,12 @@ namespace Pandora.Tests
         }
 
         [Fact]
-        public void ThrowsExceptionWhenKeyNotFound()
+        public void ReturnsNullWhenKeyNotFound()
         {
             var store = new ComponentStore();
 
-            Assert.Throws<KeyNotFoundException>(() => store.GetRegistrationsForService<IService>());
+            var registrationsForService = store.GetRegistrationsForService<IService>();
+            Assert.Equal(0, registrationsForService.Count);
         }
 
         [Fact]
