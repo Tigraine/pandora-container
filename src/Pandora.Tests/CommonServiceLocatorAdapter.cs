@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-
+ #if NET452
 using Microsoft.Practices.ServiceLocation;
 
 namespace Pandora.Tests
@@ -55,3 +55,4 @@ namespace Pandora.Tests
         }
     }
 }
+ #endif

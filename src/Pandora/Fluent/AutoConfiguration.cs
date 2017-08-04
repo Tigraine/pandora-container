@@ -44,8 +44,13 @@ namespace Pandora.Fluent
             var types = FromAssembly.GetTypes();
             foreach (var type in types)
             {
+#if NET35
                 if (type.IsInterface) continue;
                 if (type.IsAbstract) continue;
+#else
+                if (type.GetTypeInfo().IsInterface) continue;
+                if (type.GetTypeInfo().IsAbstract) continue;
+#endif
                 var typeRegistration = new Registration
                                            {
                                                Service = type,

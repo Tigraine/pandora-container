@@ -18,8 +18,8 @@ namespace Pandora.Tests
 {
     using System;
     using System.Collections.Generic;
+    using System.Reflection;
     using Fluent;
-    using Rhino.Mocks.Exceptions;
     public class ContainerMock : IPandoraContainer
     {
         public delegate object Expectation();
@@ -40,42 +40,32 @@ namespace Pandora.Tests
             }
             if (expectations.ContainsKey(key))
                 return expectations[key]();
-            throw new ExpectationViolationException("No expectation found for method " + methodName);
+            throw new InvalidOperationException("No expectation found for method " + methodName);
         }
 
         public void AddComponent<T, TImplementor>() where T : class where TImplementor : T
         {
-            var method = System.Reflection.MethodBase.GetCurrentMethod();
-            var name = method.Name;
-            CallExpectation(name, method.IsGenericMethod);
+            CallExpectation(nameof(AddComponent), true);
         }
 
         public T Resolve<T>()
         {
-            var method = System.Reflection.MethodBase.GetCurrentMethod();
-            var name = method.Name;
-            return (T)CallExpectation(name, method.IsGenericMethod);
+            return (T)CallExpectation(nameof(Resolve), true);
         }
 
         public object Resolve(Type type)
         {
-            var method = System.Reflection.MethodBase.GetCurrentMethod();
-            var name = method.Name;
-            return CallExpectation(name, method.IsGenericMethod);
+            return CallExpectation(nameof(Resolve), false);
         }
 
         public T Resolve<T>(string name)
         {
-            var method = System.Reflection.MethodBase.GetCurrentMethod();
-            var methodName = method.Name;
-            return (T)CallExpectation(methodName, method.IsGenericMethod);
+            return (T)CallExpectation(nameof(Resolve), true);
         }
 
         public object Resolve(Type type, string name)
         {
-            var method = System.Reflection.MethodBase.GetCurrentMethod();
-            var methodName = method.Name;
-            return CallExpectation(methodName, method.IsGenericMethod);
+            return CallExpectation(nameof(Resolve), false);
         }
 
         public IEnumerable<T> ResolveAll<T>()

@@ -17,7 +17,12 @@ namespace Pandora
 {
     using System;
 
-    public class DependencyMissingException : ApplicationException
+    public class DependencyMissingException :
+#if NET35
+        ApplicationException
+#else
+        Exception
+#endif
     {
         public DependencyMissingException(string name, string typeName)
             : base (String.Format("Type {2} could not be created because one of it's dependencies is missing:{0}{1}", Environment.NewLine, name, typeName))

@@ -18,6 +18,7 @@ namespace Pandora
 {
     using System;
     using System.Collections.Generic;
+    using System.Reflection;
 
     public class ConcreteClassInstantiationLookupServiceDecorator : IComponentLookup
     {
@@ -40,7 +41,11 @@ namespace Pandora
             }
 
             Type type = targetType.ServiceType;
+#if NET35
             if (!type.IsInterface && !type.IsAbstract && targetType.Name == null)
+#else
+            if (!type.GetTypeInfo().IsInterface && !type.GetTypeInfo().IsAbstract && targetType.Name == null)
+#endif
             {
                 lock (createdRegistrations)
                 {
