@@ -60,15 +60,15 @@ namespace Pandora.Tests
                                        .Lifestyle.Singleton();
                                });
             
-            Assert.DoesNotThrow(() => container.Resolve<IService>());
+            container.Resolve<IService>();
         }
 
         [Fact]
         public void CanConfigureComponentWithoutSpecifyingLifestyleAndParameters()
         {
-            Assert.DoesNotThrow(() => store.Register((p) => p.Service<IService>()
-                                                                .Implementor<ClassWithNoDependencies>()));
-            Assert.DoesNotThrow(() => container.Resolve<IService>());
+            store.Register((p) => p.Service<IService>()
+                .Implementor<ClassWithNoDependencies>());
+            container.Resolve<IService>();
         }
 
         [Fact]
@@ -92,13 +92,13 @@ namespace Pandora.Tests
         [Fact]
         public void CanRegisterTwoServicesWithDifferentNames()
         {
-            Assert.DoesNotThrow(() => store.Register(p =>
-                                                         {
-                                                             p.Service<IService>("service1")
-                                                                 .Implementor<ClassWithNoDependencies>();
-                                                             p.Service<IService>("service2")
-                                                                 .Implementor<ClassWithNoDependencies>();
-                                                         }));
+            store.Register(p =>
+                               {
+                                    p.Service<IService>("service1")
+                                        .Implementor<ClassWithNoDependencies>();
+                                    p.Service<IService>("service2")
+                                        .Implementor<ClassWithNoDependencies>();
+                                });
         }
 
         [Fact]

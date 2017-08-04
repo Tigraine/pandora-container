@@ -88,7 +88,7 @@ namespace Pandora.Tests
             store.Add<ClassWithNoDependencies, ClassWithNoDependencies>();
             var container = new PandoraContainer(store);
 
-            Assert.DoesNotThrow(() => container.Resolve<ClassWithNoDependencies>());
+            container.Resolve<ClassWithNoDependencies>();
         }
 
         [Fact]
@@ -111,7 +111,7 @@ namespace Pandora.Tests
 
             var container = new PandoraContainer(store);
 
-            Assert.DoesNotThrow(() => container.Resolve<IService4>());
+            container.Resolve<IService4>();
         }
 
         [Fact]

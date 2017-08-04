@@ -25,10 +25,7 @@ namespace Pandora.Tests
         public void CanInsertRegistration()
         {
             var store = new ComponentStore();
-
-            Assert.DoesNotThrow(() => 
-                    store.Add<IService, ClassWithNoDependencies>()
-                );
+            store.Add<IService, ClassWithNoDependencies>();
 
             var registration = store.GetRegistrationsForService<IService>()[0];
             Assert.Equal(registration.Implementor, typeof(ClassWithNoDependencies));
@@ -40,7 +37,7 @@ namespace Pandora.Tests
             var store = new ComponentStore();
             store.Add<IService, ClassWithNoDependencies>();
 
-            Assert.DoesNotThrow(() => store.Add<IService, ClassWithNoDependencies>());
+            store.Add<IService, ClassWithNoDependencies>();
         }
 
         [Fact]

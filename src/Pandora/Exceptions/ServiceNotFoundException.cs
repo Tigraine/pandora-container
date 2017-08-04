@@ -18,7 +18,12 @@ namespace Pandora
 {
     using System;
 
-    public class ServiceNotFoundException : ApplicationException
+    public class ServiceNotFoundException :
+#if NET35
+        ApplicationException
+#else
+        Exception
+#endif
     {
         public ServiceNotFoundException(Type type)
             : base(String.Format("No service for type {0} could be found", type.FullName))

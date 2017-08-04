@@ -19,6 +19,7 @@ namespace Pandora
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Reflection;
     using Model;
 
     public class Resolver

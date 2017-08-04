@@ -22,7 +22,7 @@ namespace Pandora.Tests
                 p.Service<GenericClass<string>>()
                 .Implementor<GenericClass<string>>());
 
-            Assert.DoesNotThrow(() => container.Resolve<GenericClass<string>>());
+            container.Resolve<GenericClass<string>>();
         }
 
         [Fact]
@@ -33,11 +33,9 @@ namespace Pandora.Tests
                          .Implementor(typeof (GenericClass<>))
                          .OnlyForTypes(typeof (string), typeof (int)));
 
-            Assert.DoesNotThrow(() =>
-                                    {
-                                        container.Resolve<GenericClass<string>>();
-                                        container.Resolve<GenericClass<int>>();
-                                    });
+            container.Resolve<GenericClass<string>>();
+            container.Resolve<GenericClass<int>>();
+
             //Since ConcreteClassInstantiation is active this can't be tested
             //Assert.Throws<ServiceNotFoundException>(() => container.Resolve<GenericClass<long>>());
         }
@@ -65,7 +63,7 @@ namespace Pandora.Tests
                                .Implementor(typeof (GenericClass<>))
                                .ForAllTypes());
 
-            Assert.DoesNotThrow(() => { var resolve = container.Resolve<GenericClass<string>>(); });
+            var resolve = container.Resolve<GenericClass<string>>();
         }
 
         [Fact(Skip = "Not implemented yet")]
@@ -79,7 +77,7 @@ namespace Pandora.Tests
                                        .Implementor(typeof (GenericClass<>))
                                        .ForAllTypes();
                                });
-            Assert.DoesNotThrow(() => container.Resolve<IService>());
+            container.Resolve<IService>();
         }
 
         [Fact(Skip = "Not implemented yet")]

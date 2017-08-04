@@ -25,25 +25,17 @@ namespace Pandora.Tests
         public void NoRegistrationIsRequiredToInstantiateConcreteClassWithoutDependencies()
         {
             var container = new PandoraContainer(new ComponentStore());
-
-            Assert.DoesNotThrow(() =>
-                                    {
-                                        var dependencies = container.Resolve<ClassWithNoDependencies>();
-                                        Assert.IsType<ClassWithNoDependencies>(dependencies);
-                                    });
+            var dependencies = container.Resolve<ClassWithNoDependencies>();
+            Assert.IsType<ClassWithNoDependencies>(dependencies);
         }
 
         [Fact]
         public void ClassWithDependencyOnConcreteClassResolves()
         {
             var container = new PandoraContainer(new ComponentStore());
-
-            Assert.DoesNotThrow(() =>
-                                    {
-                                        var dependency =
-                                            container.Resolve<GenericWithDependency<ClassWithNoDependencies>>();
-                                        Assert.IsType<ClassWithNoDependencies>(dependency.Dependency);
-                                    });
+            var dependency =
+                container.Resolve<GenericWithDependency<ClassWithNoDependencies>>();
+            Assert.IsType<ClassWithNoDependencies>(dependency.Dependency);
         }
 
         [Fact]

@@ -18,7 +18,12 @@ namespace Pandora
 {
     using System;
 
-    public class NameAlreadyRegisteredException : ApplicationException
+    public class NameAlreadyRegisteredException :
+#if NET35
+        ApplicationException
+#else
+        Exception
+#endif
     {
         public NameAlreadyRegisteredException(string name)
             : base(String.Format("{0} was already registered with this Container", name))

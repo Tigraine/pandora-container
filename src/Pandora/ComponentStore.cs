@@ -21,6 +21,7 @@ namespace Pandora
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Reflection;
     using Fluent;
 
     public class ComponentStore : IComponentStore
@@ -34,7 +35,11 @@ namespace Pandora
         public virtual IRegistration Add<T, TType>(string name) where TType : T
         {
             var implementorType = typeof(TType);
+#if NET35
             if (implementorType.IsInterface) throw new RegistrationException(implementorType);
+#else
+            if (implementorType.GetTypeInfo().IsInterface) throw new RegistrationException(implementorType);
+#endif
 
             var registration = CreateRegistration(typeof (T), implementorType, name);
             AddRegistration(registration);

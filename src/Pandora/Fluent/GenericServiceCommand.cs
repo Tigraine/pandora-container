@@ -17,7 +17,7 @@
 namespace Pandora.Fluent
 {
     using System;
-    using System.Linq;
+    using System.Reflection;
 
     public class GenericServiceCommand : ICommand
     {
@@ -28,7 +28,11 @@ namespace Pandora.Fluent
             get { return service; }
             set
             {
+#if NET35
                 if (!value.IsGenericType)
+#else
+                if (!value.GetTypeInfo().IsGenericType)
+#endif
                     throw new ArgumentException(String.Format("Type {0} is not generic and thus cannot be used as a generic registry", value.FullName));
                 service = value;
             }
@@ -40,7 +44,11 @@ namespace Pandora.Fluent
             get { return implementor; }
             set
             {
+#if NET35
                 if (!value.IsGenericType)
+#else
+                if (!value.GetTypeInfo().IsGenericType)
+#endif
                     throw new ArgumentException(String.Format("Type {0} is not generic and thus cannot be used as a generic registry", value.FullName));
                 implementor = value;
             }
