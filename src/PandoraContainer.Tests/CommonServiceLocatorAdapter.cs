@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
- #if NET452
+ #if SERVICELOCATION
 using Microsoft.Practices.ServiceLocation;
 
 namespace PandoraContainer.Tests
