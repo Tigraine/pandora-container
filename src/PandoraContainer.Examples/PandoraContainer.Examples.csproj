@@ -1,0 +1,12 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>net452</TargetFrameworks>
+    <NetStandardImplicitPackageVersion>1.6.1</NetStandardImplicitPackageVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PandoraContainer.Tests\PandoraContainer.Tests.csproj" />
+    <ProjectReference Include="..\PandoraContainer\PandoraContainer.csproj" />
+  </ItemGroup>
+
+</Project>

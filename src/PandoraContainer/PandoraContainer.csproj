@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>net35;netstandard1.3</TargetFrameworks>
+    <NetStandardImplicitPackageVersion>1.6.1</NetStandardImplicitPackageVersion>
+    <Product>Pandora Container</Product>
+    <Company>Tigraine</Company>
+    <Copyright>Copyright © Daniel Hölbling 2009-2017</Copyright>
+    <VersionPrefix>0.2.0</VersionPrefix>
+    <PackageId>PandoraContainer</PackageId>
+    <PackageTags>di;ioc</PackageTags>
+    <PackageProjectUrl>https://github.com/Tigraine/pandora-container</PackageProjectUrl>
+    <Description>Yet another lightweight IoC container: http://www.tigraine.at</Description>
+    <Authors>Daniel Hölbling</Authors>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <AssemblyOriginatorKeyFile>pandora-container.snk</AssemblyOriginatorKeyFile>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.3' ">
+    <PackageReference Include="System.Reflection" Version="4.3.0" />
+    <PackageReference Include="System.Reflection.TypeExtensions" Version="4.3.0" />
+  </ItemGroup>
+
+</Project>
